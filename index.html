@@ -3,102 +3,113 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>BOUND Chat</title>
+    <title>BOUND Messenger</title>
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
     <style>
         :root {
             --bg: #0b141a;
             --side-panel: #111b21;
-            --chat-bg: #0b141a;
-            --accent: #00a884; /* WhatsApp Green */
+            --accent: #38bdf8;
             --text: #e9edef;
             --subtle: #8696a0;
             --my-bubble: #005c4b;
             --other-bubble: #202c33;
             --input-bg: #2a3942;
+            --danger: #ef4444;
         }
-        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Helvetica, Arial, sans-serif; }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', sans-serif; }
         body { background: var(--bg); color: var(--text); height: 100vh; display: flex; overflow: hidden; }
 
-        /* Login Screen */
-        #login-screen { 
-            position: fixed; inset: 0; background: var(--bg); z-index: 1000; 
-            display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 20px;
-        }
-        .login-box { background: var(--side-panel); padding: 30px; border-radius: 20px; width: 100%; max-width: 400px; text-align: center; border: 1px solid #334155; }
-
-        /* Main Layout */
-        .sidebar { width: 30%; min-width: 300px; background: var(--side-panel); border-right: 1px solid rgba(255,255,255,0.1); display: flex; flex-direction: column; }
-        .chat-area { flex: 1; display: flex; flex-direction: column; background: var(--chat-bg); position: relative; }
-
-        /* Search & Header */
-        .header { padding: 15px; background: var(--side-panel); display: flex; justify-content: space-between; align-items: center; }
-        .search-bar { padding: 10px; background: var(--side-panel); }
-        input { width: 100%; padding: 12px; border-radius: 8px; border: none; background: var(--input-bg); color: white; font-size: 16px; }
-        button { background: var(--accent); color: white; border: none; padding: 12px; border-radius: 8px; font-weight: bold; cursor: pointer; }
-
-        /* User List */
-        .user-list { flex: 1; overflow-y: auto; }
-        .user-item { padding: 15px; border-bottom: 1px solid rgba(255,255,255,0.05); cursor: pointer; transition: 0.2s; }
-        .user-item:hover { background: rgba(255,255,255,0.05); }
-        .user-item .name { font-weight: bold; display: block; }
-        .user-item .code { font-size: 12px; color: var(--subtle); }
-
-        /* Chat Window */
-        .chat-header { padding: 15px; background: var(--side-panel); border-bottom: 1px solid rgba(255,255,255,0.1); font-weight: bold; }
-        #messages { flex: 1; overflow-y: auto; padding: 20px; display: flex; flex-direction: column; gap: 8px; }
-        .msg { max-width: 70%; padding: 8px 12px; border-radius: 12px; font-size: 15px; position: relative; }
-        .msg.me { align-self: flex-end; background: var(--my-bubble); border-bottom-right-radius: 2px; }
-        .msg.other { align-self: flex-start; background: var(--other-bubble); border-bottom-left-radius: 2px; }
-        .msg-time { font-size: 10px; color: rgba(255,255,255,0.5); display: block; text-align: right; margin-top: 4px; }
-
-        .input-area { padding: 15px; background: var(--side-panel); display: flex; gap: 10px; }
+        /* Login & Info */
+        #login-screen { position: fixed; inset: 0; background: var(--bg); z-index: 1000; display: flex; align-items: center; justify-content: center; overflow-y: auto; padding: 20px; }
+        .login-box { background: var(--side-panel); padding: 30px; border-radius: 20px; width: 100%; max-width: 450px; border: 1px solid #334155; }
         
+        .info-box { background: rgba(56, 189, 248, 0.1); padding: 15px; border-radius: 12px; font-size: 13px; line-height: 1.4; margin-bottom: 20px; color: var(--accent); border: 1px solid var(--accent); }
+        
+        input, select { width: 100%; padding: 14px; border-radius: 10px; border: none; background: var(--input-bg); color: white; margin-bottom: 12px; font-size: 16px; }
+        button { width: 100%; background: var(--accent); color: #0b141a; border: none; padding: 15px; border-radius: 10px; font-weight: 800; cursor: pointer; text-transform: uppercase; }
+        
+        /* Layout */
+        .sidebar { width: 350px; background: var(--side-panel); border-right: 1px solid rgba(255,255,255,0.1); display: flex; flex-direction: column; }
+        .chat-area { flex: 1; display: flex; flex-direction: column; background: #0b141a; }
+        
+        .user-item { padding: 15px; border-bottom: 1px solid rgba(255,255,255,0.05); cursor: pointer; }
+        .user-item:hover { background: rgba(255,255,255,0.05); }
+        
+        #messages { flex: 1; overflow-y: auto; padding: 20px; display: flex; flex-direction: column; gap: 10px; }
+        .msg { max-width: 70%; padding: 10px 15px; border-radius: 15px; font-size: 15px; }
+        .msg.me { align-self: flex-end; background: var(--my-bubble); }
+        .msg.other { align-self: flex-start; background: var(--other-bubble); }
+
+        .admin-link { margin-top: 20px; font-size: 10px; color: var(--subtle); cursor: pointer; text-align: center; display: block; }
         .hidden { display: none !important; }
-        .version-tag { position: absolute; bottom: 5px; right: 10px; font-size: 10px; color: var(--subtle); opacity: 0.5; }
+        .code-display { background: #fff; color: #000; padding: 15px; border-radius: 8px; font-family: monospace; font-weight: bold; font-size: 20px; margin: 15px 0; }
     </style>
 </head>
 <body>
 
     <div id="login-screen">
-        <div class="login-box">
-            <h2 style="margin-bottom: 20px; color: var(--accent);">BOUND Messenger</h2>
-            <input type="text" id="regName" placeholder="Dein Name" style="margin-bottom: 10px;">
-            <input type="text" id="regCode" placeholder="3-stelliger Code (z.B. 123)" maxlength="3" style="margin-bottom: 20px;">
-            <button onclick="register()" style="width: 100%;">JETZT STARTEN</button>
+        <div class="login-box" id="auth-ui">
+            <h2 style="text-align:center; color: var(--accent); margin-bottom: 10px;">BOUND MESSENGER</h2>
+            
+            <div class="info-box">
+                <strong>Anleitung:</strong><br>
+                1. Gib deinen Namen und deine Stufe ein.<br>
+                2. Wenn du neu bist, erhältst du einen <b>geheimen Code</b>. Speicher ihn gut!<br>
+                3. Wenn du schon einen Account hast, gib deinen Code unten ein.<br>
+                4. Suche Mitschüler und starte den Chat.
+            </div>
+
+            <div id="reg-fields">
+                <input type="text" id="loginName" placeholder="Vollständiger Name">
+                <select id="loginStufe">
+                    <option value="" disabled selected>Stufe wählen</option>
+                    <option>1</option><option>2</option><option>3</option><option>4</option><option>5</option>
+                    <option>6</option><option>7</option><option>8</option><option>9</option><option>10</option>
+                    <option>EF</option><option>Q1</option><option>Q2</option>
+                </select>
+                <button onclick="handleAuth(false)">Account erstellen / Finden</button>
+            </div>
+
+            <div style="margin: 15px 0; text-align: center; font-size: 12px; color: var(--subtle);">ODER BESTEHENDEN CODE NUTZEN</div>
+            <input type="text" id="authCode" placeholder="Dein geheimer 8-stelliger Code">
+            <button class="secondary-btn" style="background: #2a3942; color: white;" onclick="handleAuth(true)">Mit Code Einloggen</button>
+
+            <span class="admin-link" onclick="adminWipe()">Admin: System-Reset</span>
+        </div>
+
+        <div class="login-box hidden" id="code-assignment">
+            <h3 style="color: var(--accent)">Dein geheimer Code</h3>
+            <p style="font-size: 13px; margin: 10px 0;">Schreibe dir diesen Code auf! Du brauchst ihn für jeden Login auf anderen Geräten.</p>
+            <div class="code-display" id="newGeneratedCode">XXXX-XXXX</div>
+            <button onclick="location.reload()">Ich habe den Code kopiert</button>
         </div>
     </div>
 
     <div class="sidebar">
-        <div class="header">
-            <h3 id="myDisplayName">Messenger</h3>
-            <button onclick="logout()" style="padding: 5px 10px; font-size: 12px; background: var(--other-bubble)">Logout</button>
+        <div style="padding: 20px; background: var(--side-panel); border-bottom: 1px solid rgba(255,255,255,0.1);">
+            <h3 id="userNameDisplay">Name</h3>
+            <p id="userStufeDisplay" style="font-size: 12px; color: var(--accent)"></p>
         </div>
-        <div class="search-bar">
-            <input type="text" id="userSearch" placeholder="Nutzer suchen..." oninput="searchUsers()">
-        </div>
-        <div class="user-list" id="contactsList">
-            </div>
+        <div style="padding: 10px;"><input type="text" id="userSearch" placeholder="Name oder Stufe suchen..." oninput="searchUsers()"></div>
+        <div id="contactsList" style="flex:1; overflow-y:auto;"></div>
     </div>
 
     <div class="chat-area">
-        <div id="chat-placeholder" style="flex: 1; display: flex; align-items: center; justify-content: center; color: var(--subtle);">
-            Wähle einen Kontakt aus, um zu chatten.
-        </div>
-        <div id="active-chat" class="hidden" style="height: 100%; display: flex; flex-direction: column;">
-            <div class="chat-header" id="chatWithTitle">Name</div>
+        <div id="chat-placeholder" style="flex:1; display:flex; align-items:center; justify-content:center; color: var(--subtle);">Wähle einen Chat</div>
+        <div id="active-chat" class="hidden" style="height:100%; display:flex; flex-direction:column;">
+            <div id="chatHeader" style="padding:15px; background: var(--side-panel); font-weight:bold; border-bottom:1px solid rgba(255,255,255,0.1);">Name</div>
             <div id="messages"></div>
-            <div class="input-area">
-                <input type="text" id="msgInput" placeholder="Nachricht schreiben..." onkeypress="if(event.key==='Enter') sendMsg()">
-                <button onclick="sendMsg()">➤</button>
+            <div style="padding:15px; background: var(--side-panel); display:flex; gap:10px;">
+                <input type="text" id="msgInput" placeholder="Nachricht..." onkeypress="if(event.key==='Enter') sendMsg()">
+                <button onclick="sendMsg()" style="width:60px;">➤</button>
             </div>
         </div>
-        <div class="version-tag">Beta V1.2</div>
     </div>
 
     <script>
-        // DEINE FIREBASE CONFIG (Gleiche wie oben nutzen)
+        // FIREBASE KONFIGURATION
         const firebaseConfig = {
             apiKey: "AIzaSyCrFeaJLo7LS6hHml8yu8Fh7Z4mklh38uw",
             authDomain: "boundonline-538df.firebaseapp.com",
@@ -111,32 +122,58 @@
         firebase.initializeApp(firebaseConfig);
         const db = firebase.database();
 
-        let currentUser = JSON.parse(localStorage.getItem('boundUser')) || null;
+        let currentUser = JSON.parse(localStorage.getItem('chatUser')) || null;
         let activeChatId = null;
 
-        if(currentUser) showMain();
+        if(currentUser) startApp();
 
-        function register() {
-            const name = document.getElementById('regName').value.trim();
-            const code = document.getElementById('regCode').value.trim();
-            if(name.length < 2 || code.length !== 3) return alert("Name min. 2 Zeichen, Code genau 3!");
-            
-            const userId = `${name}_${code}`;
-            currentUser = { id: userId, name: name, code: code };
-            
-            db.ref('users/' + userId).set(currentUser).then(() => {
-                localStorage.setItem('boundUser', JSON.stringify(currentUser));
-                showMain();
-            });
+        function generateCode() { return Math.random().toString(36).substr(2, 8).toUpperCase(); }
+
+        async function handleAuth(withCode) {
+            if(withCode) {
+                const code = document.getElementById('authCode').value.trim();
+                db.ref('users').orderByChild('code').equalTo(code).once('value', s => {
+                    if(s.exists()) {
+                        const userData = Object.values(s.val())[0];
+                        login(userData);
+                    } else { alert("Code ungültig!"); }
+                });
+            } else {
+                const name = document.getElementById('loginName').value.trim();
+                const stufe = document.getElementById('loginStufe').value;
+                if(!name || !stufe) return alert("Bitte Name und Stufe wählen!");
+                
+                const userId = btoa(name + stufe).replace(/=/g, "");
+                db.ref('users/' + userId).once('value', s => {
+                    if(s.exists()) {
+                        alert("Account existiert. Bitte nutze deinen Code zum Einloggen.");
+                    } else {
+                        const newCode = generateCode();
+                        const userData = { id: userId, name: name, stufe: stufe, code: newCode };
+                        db.ref('users/' + userId).set(userData).then(() => {
+                            document.getElementById('auth-ui').classList.add('hidden');
+                            document.getElementById('code-assignment').classList.remove('hidden');
+                            document.getElementById('newGeneratedCode').innerText = newCode;
+                        });
+                    }
+                });
+            }
         }
 
-        function showMain() {
+        function login(data) {
+            localStorage.setItem('chatUser', JSON.stringify(data));
+            currentUser = data;
+            startApp();
+        }
+
+        function startApp() {
             document.getElementById('login-screen').classList.add('hidden');
-            document.getElementById('myDisplayName').innerText = currentUser.name;
-            loadContacts();
+            document.getElementById('userNameDisplay').innerText = currentUser.name;
+            document.getElementById('userStufeDisplay').innerText = "Stufe: " + currentUser.stufe;
+            loadUsers();
         }
 
-        function loadContacts() {
+        function loadUsers() {
             db.ref('users').on('value', s => {
                 const users = s.val();
                 const list = document.getElementById('contactsList');
@@ -145,47 +182,30 @@
                     if(id === currentUser.id) continue;
                     list.innerHTML += `
                         <div class="user-item" onclick="openChat('${id}', '${users[id].name}')">
-                            <span class="name">${users[id].name}</span>
-                            <span class="code">ID: #${users[id].code}</span>
+                            <strong>${users[id].name}</strong><br>
+                            <small style="color:var(--accent)">Stufe ${users[id].stufe}</small>
                         </div>`;
                 }
-            });
-        }
-
-        function searchUsers() {
-            const term = document.getElementById('userSearch').value.toLowerCase();
-            const items = document.querySelectorAll('.user-item');
-            items.forEach(item => {
-                item.classList.toggle('hidden', !item.innerText.toLowerCase().includes(term));
             });
         }
 
         function openChat(otherId, otherName) {
             document.getElementById('chat-placeholder').classList.add('hidden');
             document.getElementById('active-chat').classList.remove('hidden');
-            document.getElementById('chatWithTitle').innerText = otherName;
-            
-            // Generiere eindeutige Chat-ID (alphabetisch sortiert damit beide die gleiche ID haben)
+            document.getElementById('chatHeader').innerText = otherName;
             activeChatId = [currentUser.id, otherId].sort().join("--");
-            
             loadMessages();
         }
 
         function loadMessages() {
             db.ref('chats/' + activeChatId).on('value', s => {
-                const msgs = s.val();
                 const container = document.getElementById('messages');
                 container.innerHTML = "";
-                if(msgs) {
-                    for(let id in msgs) {
-                        const m = msgs[id];
-                        const time = new Date(m.ts).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
-                        container.innerHTML += `
-                            <div class="msg ${m.sender === currentUser.id ? 'me' : 'other'}">
-                                ${m.text}
-                                <span class="msg-time">${time}</span>
-                            </div>`;
-                    }
+                const data = s.val();
+                if(data) {
+                    Object.values(data).forEach(m => {
+                        container.innerHTML += `<div class="msg ${m.sender === currentUser.id ? 'me' : 'other'}">${m.text}</div>`;
+                    });
                 }
                 container.scrollTop = container.scrollHeight;
             });
@@ -193,20 +213,32 @@
 
         function sendMsg() {
             const input = document.getElementById('msgInput');
-            const text = input.value.trim();
-            if(!text || !activeChatId) return;
-
+            if(!input.value.trim()) return;
             db.ref('chats/' + activeChatId).push({
                 sender: currentUser.id,
-                text: text,
+                text: input.value,
                 ts: Date.now()
             });
             input.value = "";
         }
 
-        function logout() {
-            localStorage.clear();
-            location.reload();
+        function searchUsers() {
+            const term = document.getElementById('userSearch').value.toLowerCase();
+            document.querySelectorAll('.user-item').forEach(i => {
+                i.style.display = i.innerText.toLowerCase().includes(term) ? "block" : "none";
+            });
+        }
+
+        function adminWipe() {
+            const pw = prompt("Admin-Passwort:");
+            if(pw === "abcdefg") {
+                if(confirm("ACHTUNG: Alle Accounts und Chats werden gelöscht! Fortfahren?")) {
+                    db.ref().remove().then(() => {
+                        localStorage.clear();
+                        location.reload();
+                    });
+                }
+            } else { alert("Falsches Passwort!"); }
         }
     </script>
 </body>
