@@ -24,254 +24,137 @@
       --text-muted:     #3a3a3a;
       --text-white:     #e8e8e8;
       --accent:         #5b8cff;
-      --accent-glow:    rgba(91, 140, 255, 0.15);
+      --accent-glow:    rgba(91,140,255,0.15);
       --danger:         #ff4444;
+      --danger-glow:    rgba(255,68,68,0.12);
       --success:        #44cc88;
-      --font-impact:    'Impact', 'Haettenschweiler', 'Arial Narrow Bold', sans-serif;
-      --font-ui:        'Barlow Condensed', sans-serif;
-      --font-body:      'Barlow', sans-serif;
+      --font-impact:    'Impact','Haettenschweiler','Arial Narrow Bold',sans-serif;
+      --font-ui:        'Barlow Condensed',sans-serif;
+      --font-body:      'Barlow',sans-serif;
     }
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    body {
-      background-color: var(--bg-base);
-      color: var(--text-primary);
-      font-family: var(--font-body);
-      min-height: 100vh;
-      overflow-x: hidden;
-      position: relative;
-    }
-    body::before {
-      content: '';
-      position: fixed; inset: 0;
-      background-image: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,0,0,0.18) 2px, rgba(0,0,0,0.18) 4px);
-      pointer-events: none; z-index: 9999; opacity: 0.4;
-    }
-    body::after {
-      content: '';
-      position: fixed; inset: 0;
-      background-image:
-        linear-gradient(rgba(255,255,255,0.015) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(255,255,255,0.015) 1px, transparent 1px);
-      background-size: 40px 40px;
-      pointer-events: none; z-index: 0;
-    }
-    header {
-      position: relative; z-index: 10;
-      padding: 28px 40px 22px;
-      border-bottom: 1px solid var(--border-subtle);
-      background: linear-gradient(180deg, #0d0d0d 0%, var(--bg-base) 100%);
-    }
-    .header-inner { max-width: 900px; margin: 0 auto; }
-    .logo-title {
-      font-family: var(--font-impact);
-      font-size: clamp(26px, 4vw, 38px);
-      letter-spacing: 0.02em; color: var(--text-primary);
-      text-transform: uppercase; line-height: 1;
-    }
-    .logo-title .dark { color: var(--text-secondary); }
-    .logo-sub {
-      font-family: var(--font-ui); font-size: 13px;
-      letter-spacing: 0.12em; text-transform: uppercase;
-      color: var(--text-secondary); margin-top: 6px;
-    }
-    .header-rule {
-      width: 100%; height: 1px;
-      background: linear-gradient(90deg, var(--border-mid) 0%, transparent 100%);
-      margin-top: 20px;
-    }
-    main {
-      position: relative; z-index: 10;
-      display: flex; flex-direction: column;
-      align-items: center; justify-content: center;
-      min-height: calc(100vh - 130px);
-      padding: 48px 20px;
-    }
-    .auth-card {
-      width: 100%; max-width: 440px;
-      background: var(--bg-card);
-      border: 1px solid var(--border-subtle);
-      position: relative;
-      animation: cardIn 0.5s cubic-bezier(0.16,1,0.3,1) both;
-    }
-    @keyframes cardIn {
-      from { opacity:0; transform:translateY(24px); }
-      to   { opacity:1; transform:translateY(0); }
-    }
-    .auth-card::before {
-      content:''; position:absolute; top:0; left:0;
-      width:40px; height:40px;
-      border-top:2px solid var(--accent); border-left:2px solid var(--accent);
-      pointer-events:none;
-    }
-    .auth-card::after {
-      content:''; position:absolute; bottom:0; right:0;
-      width:40px; height:40px;
-      border-bottom:2px solid var(--border-mid); border-right:2px solid var(--border-mid);
-      pointer-events:none;
-    }
-    .tabs {
-      display: grid; grid-template-columns: 1fr 1fr;
-      border-bottom: 1px solid var(--border-subtle);
-    }
-    .tab-btn {
-      padding:16px; background:none; border:none;
-      font-family:var(--font-impact); font-size:14px;
-      letter-spacing:0.12em; text-transform:uppercase;
-      color:var(--text-muted); cursor:pointer;
-      position:relative; transition:color 0.2s;
-    }
-    .tab-btn::after {
-      content:''; position:absolute; bottom:-1px; left:0; right:0;
-      height:2px; background:var(--accent);
-      transform:scaleX(0); transition:transform 0.25s cubic-bezier(0.16,1,0.3,1);
-    }
-    .tab-btn.active { color:var(--text-white); }
-    .tab-btn.active::after { transform:scaleX(1); }
-    .tab-btn:hover:not(.active) { color:var(--text-secondary); }
-    .form-panel {
-      padding:32px; display:none;
-      flex-direction:column; gap:20px;
-      animation:fadeIn 0.3s ease both;
-    }
-    .form-panel.active { display:flex; }
-    @keyframes fadeIn {
-      from { opacity:0; transform:translateY(8px); }
-      to   { opacity:1; transform:translateY(0); }
-    }
-    .form-group { display:flex; flex-direction:column; gap:7px; }
-    label {
-      font-family:var(--font-ui); font-size:11px; font-weight:600;
-      letter-spacing:0.16em; text-transform:uppercase; color:var(--text-secondary);
-    }
-    input, select {
-      background:var(--bg-input); border:1px solid var(--border-subtle);
-      color:var(--text-white); font-family:var(--font-ui);
-      font-size:15px; padding:12px 14px; width:100%;
-      outline:none; transition:border-color 0.2s, box-shadow 0.2s;
-      -webkit-appearance:none; appearance:none; border-radius:0;
-    }
-    select {
-      background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23555' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
-      background-repeat:no-repeat; background-position:right 14px center;
-      padding-right:36px; cursor:pointer;
-    }
-    select option { background:#161616; color:var(--text-white); }
-    input:focus, select:focus {
-      border-color:var(--border-active);
-      box-shadow:0 0 0 3px var(--accent-glow);
-    }
-    input::placeholder { color:var(--text-muted); }
-    input.error-field, select.error-field {
-      border-color:var(--danger)!important;
-      box-shadow:0 0 0 3px rgba(255,68,68,0.12)!important;
-    }
-    .btn-primary {
-      width:100%; padding:14px;
-      background:transparent; border:1px solid var(--accent); color:var(--accent);
-      font-family:var(--font-impact); font-size:15px;
-      letter-spacing:0.18em; text-transform:uppercase;
-      cursor:pointer; position:relative; overflow:hidden;
-      transition:color 0.25s, box-shadow 0.25s; margin-top:4px;
-    }
-    .btn-primary::before {
-      content:''; position:absolute; inset:0;
-      background:var(--accent); transform:scaleX(0);
-      transform-origin:left; transition:transform 0.25s cubic-bezier(0.16,1,0.3,1); z-index:0;
-    }
-    .btn-primary:hover::before { transform:scaleX(1); }
-    .btn-primary:hover { color:#000; box-shadow:0 0 20px var(--accent-glow); }
-    .btn-primary span { position:relative; z-index:1; }
-    .btn-primary:disabled { opacity:0.5; cursor:not-allowed; }
-    .btn-primary:disabled::before { transform:scaleX(0)!important; }
-    .btn-primary:disabled:hover { color:var(--accent); box-shadow:none; }
-    .alert {
-      padding:12px 14px; font-family:var(--font-ui);
-      font-size:13px; letter-spacing:0.04em;
-      border-left:3px solid; display:none;
-    }
-    .alert.show { display:block; }
-    .alert-error   { background:rgba(255,68,68,0.07); border-color:var(--danger); color:#ff8888; }
-    .alert-success { background:rgba(68,204,136,0.07); border-color:var(--success); color:#88ddaa; }
-    .spinner {
-      display:inline-block; width:14px; height:14px;
-      border:2px solid rgba(255,255,255,0.2); border-top-color:currentColor;
-      border-radius:50%; animation:spin 0.7s linear infinite;
-      margin-right:8px; vertical-align:middle;
-    }
-    @keyframes spin { to { transform:rotate(360deg); } }
-    #dashboard {
-      display:none; width:100%; max-width:600px;
-      animation:cardIn 0.5s cubic-bezier(0.16,1,0.3,1) both;
-    }
-    .dashboard-card {
-      background:var(--bg-card); border:1px solid var(--border-subtle);
-      position:relative; padding:40px;
-    }
-    .dashboard-card::before {
-      content:''; position:absolute; top:0; left:0;
-      width:60px; height:2px; background:var(--accent);
-    }
-    .dash-welcome {
-      font-family:var(--font-impact);
-      font-size:clamp(24px,4vw,36px); color:var(--text-white);
-      text-transform:uppercase; letter-spacing:0.04em; margin-bottom:6px;
-    }
-    .dash-welcome em { color:var(--accent); font-style:normal; }
-    .dash-subtitle {
-      font-family:var(--font-ui); font-size:12px;
-      letter-spacing:0.14em; text-transform:uppercase;
-      color:var(--text-secondary); margin-bottom:32px;
-    }
-    .dash-rule { height:1px; background:var(--border-subtle); margin-bottom:28px; }
-    .user-info-grid { display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-bottom:28px; }
-    .info-block { background:var(--bg-surface); border:1px solid var(--border-subtle); padding:16px; }
-    .info-label {
-      font-family:var(--font-ui); font-size:10px; font-weight:600;
-      letter-spacing:0.18em; text-transform:uppercase;
-      color:var(--text-muted); margin-bottom:6px;
-    }
-    .info-value { font-family:var(--font-ui); font-size:18px; font-weight:600; color:var(--text-white); }
-    .token-block {
-      background:var(--bg-input); border:1px solid var(--border-subtle);
-      padding:14px 16px; margin-bottom:24px;
-      display:flex; align-items:center; gap:12px;
-    }
-    .token-label {
-      font-family:var(--font-ui); font-size:10px; font-weight:600;
-      letter-spacing:0.16em; text-transform:uppercase;
-      color:var(--text-secondary); white-space:nowrap;
-    }
-    .token-value {
-      font-family:'Courier New',monospace; font-size:11px;
-      color:var(--accent); overflow:hidden; text-overflow:ellipsis;
-      white-space:nowrap; flex:1;
-    }
-    .copy-btn {
-      background:none; border:1px solid var(--border-mid); color:var(--text-secondary);
-      font-family:var(--font-ui); font-size:10px; letter-spacing:0.1em;
-      text-transform:uppercase; padding:5px 10px; cursor:pointer;
-      transition:border-color 0.2s, color 0.2s; white-space:nowrap; flex-shrink:0;
-    }
-    .copy-btn:hover { border-color:var(--accent); color:var(--accent); }
-    .btn-logout {
-      background:transparent; border:1px solid var(--border-mid);
-      color:var(--text-secondary); font-family:var(--font-impact);
-      font-size:13px; letter-spacing:0.14em; text-transform:uppercase;
-      padding:11px 24px; cursor:pointer; transition:border-color 0.2s, color 0.2s;
-    }
-    .btn-logout:hover { border-color:var(--danger); color:var(--danger); }
-    footer {
-      position:relative; z-index:10; text-align:center; padding:20px;
-      border-top:1px solid var(--border-subtle);
-      font-family:var(--font-ui); font-size:11px;
-      letter-spacing:0.1em; text-transform:uppercase; color:var(--text-muted);
-    }
-    @media (max-width:520px) {
-      header { padding:20px 20px 16px; }
-      .form-panel { padding:24px 20px; }
-      .dashboard-card { padding:28px 20px; }
-      .user-info-grid { grid-template-columns:1fr; }
-      .token-block { flex-wrap:wrap; }
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+    body{background:var(--bg-base);color:var(--text-primary);font-family:var(--font-body);min-height:100vh;overflow-x:hidden;position:relative;}
+    body::before{content:'';position:fixed;inset:0;background-image:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,0,0,0.18) 2px,rgba(0,0,0,0.18) 4px);pointer-events:none;z-index:9999;opacity:0.4;}
+    body::after{content:'';position:fixed;inset:0;background-image:linear-gradient(rgba(255,255,255,0.015) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,0.015) 1px,transparent 1px);background-size:40px 40px;pointer-events:none;z-index:0;}
+
+    header{position:relative;z-index:10;padding:28px 40px 22px;border-bottom:1px solid var(--border-subtle);background:linear-gradient(180deg,#0d0d0d 0%,var(--bg-base) 100%);}
+    .header-inner{max-width:900px;margin:0 auto;}
+    .logo-title{font-family:var(--font-impact);font-size:clamp(26px,4vw,38px);letter-spacing:0.02em;color:var(--text-primary);text-transform:uppercase;line-height:1;}
+    .logo-title .dark{color:var(--text-secondary);}
+    .logo-sub{font-family:var(--font-ui);font-size:13px;letter-spacing:0.12em;text-transform:uppercase;color:var(--text-secondary);margin-top:6px;}
+    .header-rule{width:100%;height:1px;background:linear-gradient(90deg,var(--border-mid) 0%,transparent 100%);margin-top:20px;}
+
+    main{position:relative;z-index:10;display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:calc(100vh - 130px);padding:48px 20px;}
+
+    /* ── AUTH CARD ── */
+    .auth-card{width:100%;max-width:440px;background:var(--bg-card);border:1px solid var(--border-subtle);position:relative;animation:cardIn 0.5s cubic-bezier(0.16,1,0.3,1) both;}
+    @keyframes cardIn{from{opacity:0;transform:translateY(24px);}to{opacity:1;transform:translateY(0);}}
+    .auth-card::before{content:'';position:absolute;top:0;left:0;width:40px;height:40px;border-top:2px solid var(--accent);border-left:2px solid var(--accent);pointer-events:none;}
+    .auth-card::after{content:'';position:absolute;bottom:0;right:0;width:40px;height:40px;border-bottom:2px solid var(--border-mid);border-right:2px solid var(--border-mid);pointer-events:none;}
+
+    .tabs{display:grid;grid-template-columns:1fr 1fr;border-bottom:1px solid var(--border-subtle);}
+    .tab-btn{padding:16px;background:none;border:none;font-family:var(--font-impact);font-size:14px;letter-spacing:0.12em;text-transform:uppercase;color:var(--text-muted);cursor:pointer;position:relative;transition:color 0.2s;}
+    .tab-btn::after{content:'';position:absolute;bottom:-1px;left:0;right:0;height:2px;background:var(--accent);transform:scaleX(0);transition:transform 0.25s cubic-bezier(0.16,1,0.3,1);}
+    .tab-btn.active{color:var(--text-white);}
+    .tab-btn.active::after{transform:scaleX(1);}
+    .tab-btn:hover:not(.active){color:var(--text-secondary);}
+
+    .form-panel{padding:32px;display:none;flex-direction:column;gap:20px;animation:fadeIn 0.3s ease both;}
+    .form-panel.active{display:flex;}
+    @keyframes fadeIn{from{opacity:0;transform:translateY(8px);}to{opacity:1;transform:translateY(0);}}
+
+    .form-group{display:flex;flex-direction:column;gap:7px;}
+    label{font-family:var(--font-ui);font-size:11px;font-weight:600;letter-spacing:0.16em;text-transform:uppercase;color:var(--text-secondary);}
+    input,select{background:var(--bg-input);border:1px solid var(--border-subtle);color:var(--text-white);font-family:var(--font-ui);font-size:15px;padding:12px 14px;width:100%;outline:none;transition:border-color 0.2s,box-shadow 0.2s;-webkit-appearance:none;appearance:none;border-radius:0;}
+    select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23555' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 14px center;padding-right:36px;cursor:pointer;}
+    select option{background:#161616;color:var(--text-white);}
+    input:focus,select:focus{border-color:var(--border-active);box-shadow:0 0 0 3px var(--accent-glow);}
+    input::placeholder{color:var(--text-muted);}
+    input.error-field,select.error-field{border-color:var(--danger)!important;box-shadow:0 0 0 3px var(--danger-glow)!important;}
+
+    .btn-primary{width:100%;padding:14px;background:transparent;border:1px solid var(--accent);color:var(--accent);font-family:var(--font-impact);font-size:15px;letter-spacing:0.18em;text-transform:uppercase;cursor:pointer;position:relative;overflow:hidden;transition:color 0.25s,box-shadow 0.25s;margin-top:4px;}
+    .btn-primary::before{content:'';position:absolute;inset:0;background:var(--accent);transform:scaleX(0);transform-origin:left;transition:transform 0.25s cubic-bezier(0.16,1,0.3,1);z-index:0;}
+    .btn-primary:hover::before{transform:scaleX(1);}
+    .btn-primary:hover{color:#000;box-shadow:0 0 20px var(--accent-glow);}
+    .btn-primary span{position:relative;z-index:1;}
+    .btn-primary:disabled{opacity:0.5;cursor:not-allowed;}
+    .btn-primary:disabled::before{transform:scaleX(0)!important;}
+    .btn-primary:disabled:hover{color:var(--accent);box-shadow:none;}
+
+    .alert{padding:12px 14px;font-family:var(--font-ui);font-size:13px;letter-spacing:0.04em;border-left:3px solid;display:none;}
+    .alert.show{display:block;}
+    .alert-error  {background:rgba(255,68,68,0.07);border-color:var(--danger);color:#ff8888;}
+    .alert-success{background:rgba(68,204,136,0.07);border-color:var(--success);color:#88ddaa;}
+
+    .spinner{display:inline-block;width:14px;height:14px;border:2px solid rgba(255,255,255,0.2);border-top-color:currentColor;border-radius:50%;animation:spin 0.7s linear infinite;margin-right:8px;vertical-align:middle;}
+    @keyframes spin{to{transform:rotate(360deg);}}
+
+    /* ── DASHBOARD ── */
+    #dashboard{display:none;width:100%;max-width:640px;animation:cardIn 0.5s cubic-bezier(0.16,1,0.3,1) both;}
+
+    .dash-nav{display:grid;grid-template-columns:1fr 1fr;border-bottom:1px solid var(--border-subtle);background:var(--bg-card);border:1px solid var(--border-subtle);border-bottom:none;position:relative;}
+    .dash-nav::before{content:'';position:absolute;top:0;left:0;width:40px;height:40px;border-top:2px solid var(--accent);border-left:2px solid var(--accent);pointer-events:none;}
+    .dash-tab{padding:16px;background:none;border:none;border-bottom:1px solid var(--border-subtle);font-family:var(--font-impact);font-size:13px;letter-spacing:0.1em;text-transform:uppercase;color:var(--text-muted);cursor:pointer;position:relative;transition:color 0.2s;}
+    .dash-tab::after{content:'';position:absolute;bottom:-1px;left:0;right:0;height:2px;background:var(--accent);transform:scaleX(0);transition:transform 0.25s cubic-bezier(0.16,1,0.3,1);}
+    .dash-tab.active{color:var(--text-white);}
+    .dash-tab.active::after{transform:scaleX(1);}
+    .dash-tab:hover:not(.active){color:var(--text-secondary);}
+
+    .dash-panel{display:none;background:var(--bg-card);border:1px solid var(--border-subtle);border-top:none;padding:32px;animation:fadeIn 0.3s ease both;position:relative;}
+    .dash-panel.active{display:block;}
+    .dash-panel::after{content:'';position:absolute;bottom:0;right:0;width:40px;height:40px;border-bottom:2px solid var(--border-mid);border-right:2px solid var(--border-mid);pointer-events:none;}
+
+    /* Overview panel */
+    .dash-welcome{font-family:var(--font-impact);font-size:clamp(22px,3.5vw,32px);color:var(--text-white);text-transform:uppercase;letter-spacing:0.04em;margin-bottom:4px;}
+    .dash-welcome em{color:var(--accent);font-style:normal;}
+    .dash-subtitle{font-family:var(--font-ui);font-size:12px;letter-spacing:0.14em;text-transform:uppercase;color:var(--text-secondary);margin-bottom:28px;}
+    .dash-rule{height:1px;background:var(--border-subtle);margin-bottom:24px;}
+    .user-info-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:24px;}
+    .info-block{background:var(--bg-surface);border:1px solid var(--border-subtle);padding:14px;}
+    .info-label{font-family:var(--font-ui);font-size:10px;font-weight:600;letter-spacing:0.18em;text-transform:uppercase;color:var(--text-muted);margin-bottom:5px;}
+    .info-value{font-family:var(--font-ui);font-size:17px;font-weight:600;color:var(--text-white);}
+
+    .btn-logout{background:transparent;border:1px solid var(--border-mid);color:var(--text-secondary);font-family:var(--font-impact);font-size:13px;letter-spacing:0.14em;text-transform:uppercase;padding:11px 24px;cursor:pointer;transition:border-color 0.2s,color 0.2s;}
+    .btn-logout:hover{border-color:var(--danger);color:var(--danger);}
+
+    /* Settings panel */
+    .settings-section{margin-bottom:8px;}
+    .settings-title{font-family:var(--font-impact);font-size:18px;letter-spacing:0.08em;text-transform:uppercase;color:var(--text-white);margin-bottom:20px;padding-bottom:10px;border-bottom:1px solid var(--border-subtle);}
+
+    .change-block{border:1px solid var(--border-subtle);margin-bottom:12px;overflow:hidden;}
+    .change-header{display:flex;align-items:center;justify-content:space-between;padding:14px 16px;cursor:pointer;transition:background 0.2s;user-select:none;}
+    .change-header:hover{background:rgba(255,255,255,0.02);}
+    .change-header-left{display:flex;flex-direction:column;gap:3px;}
+    .change-label{font-family:var(--font-ui);font-size:10px;font-weight:600;letter-spacing:0.16em;text-transform:uppercase;color:var(--text-muted);}
+    .change-current{font-family:var(--font-ui);font-size:15px;font-weight:500;color:var(--text-primary);}
+    .change-arrow{font-size:12px;color:var(--text-muted);transition:transform 0.25s,color 0.2s;}
+    .change-block.open .change-arrow{transform:rotate(180deg);color:var(--accent);}
+    .change-block.open .change-header{background:rgba(91,140,255,0.04);}
+
+    .change-body{display:none;padding:16px;border-top:1px solid var(--border-subtle);background:rgba(0,0,0,0.2);flex-direction:column;gap:12px;}
+    .change-block.open .change-body{display:flex;}
+
+    .change-body .alert{margin-bottom:0;}
+
+    .change-row{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+    .change-row .form-group{margin:0;}
+
+    .btn-save{padding:11px 20px;background:transparent;border:1px solid var(--accent);color:var(--accent);font-family:var(--font-impact);font-size:13px;letter-spacing:0.14em;text-transform:uppercase;cursor:pointer;position:relative;overflow:hidden;transition:color 0.2s,box-shadow 0.2s;align-self:flex-start;}
+    .btn-save::before{content:'';position:absolute;inset:0;background:var(--accent);transform:scaleX(0);transform-origin:left;transition:transform 0.2s cubic-bezier(0.16,1,0.3,1);z-index:0;}
+    .btn-save:hover::before{transform:scaleX(1);}
+    .btn-save:hover{color:#000;box-shadow:0 0 16px var(--accent-glow);}
+    .btn-save span{position:relative;z-index:1;}
+    .btn-save:disabled{opacity:0.4;cursor:not-allowed;}
+    .btn-save:disabled::before{transform:scaleX(0)!important;}
+    .btn-save:disabled:hover{color:var(--accent);box-shadow:none;}
+
+    footer{position:relative;z-index:10;text-align:center;padding:20px;border-top:1px solid var(--border-subtle);font-family:var(--font-ui);font-size:11px;letter-spacing:0.1em;text-transform:uppercase;color:var(--text-muted);}
+
+    @media(max-width:520px){
+      header{padding:20px 20px 16px;}
+      .form-panel,.dash-panel{padding:24px 16px;}
+      .user-info-grid,.change-row{grid-template-columns:1fr;}
+      .dash-nav{grid-template-columns:1fr 1fr;}
     }
   </style>
 </head>
@@ -279,9 +162,7 @@
 
   <header>
     <div class="header-inner">
-      <div class="logo-title">
-        <span class="dark">Dark</span> School <span class="dark">Net</span>
-      </div>
+      <div class="logo-title"><span class="dark">Dark</span> School <span class="dark">Net</span></div>
       <div class="logo-sub">Account Management System</div>
       <div class="header-rule"></div>
     </div>
@@ -289,6 +170,7 @@
 
   <main>
 
+    <!-- ══ AUTH CARD ══ -->
     <div class="auth-card" id="authCard">
       <div class="tabs">
         <button class="tab-btn active" id="tabLogin"    onclick="switchTab('login')">Login</button>
@@ -328,14 +210,10 @@
           <label for="regGrade">Klassenstufe</label>
           <select id="regGrade">
             <option value="" disabled selected>— Klasse wählen —</option>
-            <option value="5">Klasse 5</option>
-            <option value="6">Klasse 6</option>
-            <option value="7">Klasse 7</option>
-            <option value="8">Klasse 8</option>
-            <option value="9">Klasse 9</option>
-            <option value="10">Klasse 10</option>
-            <option value="11">Klasse 11 (EF)</option>
-            <option value="12">Klasse 12 (Q1)</option>
+            <option value="5">Klasse 5</option><option value="6">Klasse 6</option>
+            <option value="7">Klasse 7</option><option value="8">Klasse 8</option>
+            <option value="9">Klasse 9</option><option value="10">Klasse 10</option>
+            <option value="11">Klasse 11 (EF)</option><option value="12">Klasse 12 (Q1)</option>
             <option value="13">Klasse 13 (Q2)</option>
           </select>
         </div>
@@ -349,9 +227,17 @@
       </div>
     </div>
 
-    <!-- DASHBOARD -->
+    <!-- ══ DASHBOARD ══ -->
     <div id="dashboard">
-      <div class="dashboard-card">
+
+      <!-- Tab-Nav -->
+      <div class="dash-nav">
+        <button class="dash-tab active" id="dTabOverview"  onclick="switchDashTab('overview')">Übersicht</button>
+        <button class="dash-tab"        id="dTabSettings"  onclick="switchDashTab('settings')">Einstellungen</button>
+      </div>
+
+      <!-- Overview -->
+      <div class="dash-panel active" id="dPanelOverview">
         <div class="dash-welcome">Willkommen, <em id="dashName">–</em></div>
         <div class="dash-subtitle">Du bist eingeloggt im Dark School Net</div>
         <div class="dash-rule"></div>
@@ -373,88 +259,183 @@
             <div class="info-value" style="color:var(--success)">● Online</div>
           </div>
         </div>
-        <div class="token-block">
-          <span class="token-label">Session Token</span>
-          <span class="token-value" id="sessionToken">–</span>
-          <button class="copy-btn" onclick="copyToken()">Kopieren</button>
-        </div>
         <button class="btn-logout" onclick="handleLogout()">Ausloggen</button>
       </div>
-    </div>
+
+      <!-- Settings -->
+      <div class="dash-panel" id="dPanelSettings">
+        <div class="settings-title">Account bearbeiten</div>
+
+        <!-- Benutzername ändern -->
+        <div class="change-block" id="blockUsername">
+          <div class="change-header" onclick="toggleBlock('blockUsername')">
+            <div class="change-header-left">
+              <span class="change-label">Benutzername</span>
+              <span class="change-current" id="curUsername">–</span>
+            </div>
+            <span class="change-arrow">▼</span>
+          </div>
+          <div class="change-body">
+            <div class="alert alert-error"   id="errUsername"></div>
+            <div class="alert alert-success" id="okUsername"></div>
+            <div class="change-row">
+              <div class="form-group">
+                <label>Neuer Benutzername</label>
+                <input type="text" id="newUsername" placeholder="neuer_username" />
+              </div>
+              <div class="form-group">
+                <label>Aktuelles Passwort</label>
+                <input type="password" id="pwUsername" placeholder="zur Bestätigung" />
+              </div>
+            </div>
+            <button class="btn-save" id="btnUsername" onclick="changeField('username')">
+              <span id="btnUsernameText">Speichern</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Vorname ändern -->
+        <div class="change-block" id="blockName">
+          <div class="change-header" onclick="toggleBlock('blockName')">
+            <div class="change-header-left">
+              <span class="change-label">Vorname</span>
+              <span class="change-current" id="curName">–</span>
+            </div>
+            <span class="change-arrow">▼</span>
+          </div>
+          <div class="change-body">
+            <div class="alert alert-error"   id="errName"></div>
+            <div class="alert alert-success" id="okName"></div>
+            <div class="change-row">
+              <div class="form-group">
+                <label>Neuer Vorname</label>
+                <input type="text" id="newName" placeholder="z.B. Felix" />
+              </div>
+              <div class="form-group">
+                <label>Aktuelles Passwort</label>
+                <input type="password" id="pwName" placeholder="zur Bestätigung" />
+              </div>
+            </div>
+            <button class="btn-save" id="btnName" onclick="changeField('name')">
+              <span id="btnNameText">Speichern</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Klassenstufe ändern -->
+        <div class="change-block" id="blockGrade">
+          <div class="change-header" onclick="toggleBlock('blockGrade')">
+            <div class="change-header-left">
+              <span class="change-label">Klassenstufe</span>
+              <span class="change-current" id="curGrade">–</span>
+            </div>
+            <span class="change-arrow">▼</span>
+          </div>
+          <div class="change-body">
+            <div class="alert alert-error"   id="errGrade"></div>
+            <div class="alert alert-success" id="okGrade"></div>
+            <div class="change-row">
+              <div class="form-group">
+                <label>Neue Klassenstufe</label>
+                <select id="newGrade">
+                  <option value="" disabled selected>— wählen —</option>
+                  <option value="5">Klasse 5</option><option value="6">Klasse 6</option>
+                  <option value="7">Klasse 7</option><option value="8">Klasse 8</option>
+                  <option value="9">Klasse 9</option><option value="10">Klasse 10</option>
+                  <option value="11">Klasse 11 (EF)</option><option value="12">Klasse 12 (Q1)</option>
+                  <option value="13">Klasse 13 (Q2)</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label>Aktuelles Passwort</label>
+                <input type="password" id="pwGrade" placeholder="zur Bestätigung" />
+              </div>
+            </div>
+            <button class="btn-save" id="btnGrade" onclick="changeField('grade')">
+              <span id="btnGradeText">Speichern</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Passwort ändern -->
+        <div class="change-block" id="blockPassword">
+          <div class="change-header" onclick="toggleBlock('blockPassword')">
+            <div class="change-header-left">
+              <span class="change-label">Passwort</span>
+              <span class="change-current">••••••••</span>
+            </div>
+            <span class="change-arrow">▼</span>
+          </div>
+          <div class="change-body">
+            <div class="alert alert-error"   id="errPassword"></div>
+            <div class="alert alert-success" id="okPassword"></div>
+            <div class="form-group">
+              <label>Aktuelles Passwort</label>
+              <input type="password" id="pwOld" placeholder="zur Bestätigung" />
+            </div>
+            <div class="change-row">
+              <div class="form-group">
+                <label>Neues Passwort</label>
+                <input type="password" id="pwNew" placeholder="neues Passwort" />
+              </div>
+              <div class="form-group">
+                <label>Wiederholen</label>
+                <input type="password" id="pwNewConfirm" placeholder="nochmal eingeben" />
+              </div>
+            </div>
+            <button class="btn-save" id="btnPassword" onclick="changeField('password')">
+              <span id="btnPasswordText">Speichern</span>
+            </button>
+          </div>
+        </div>
+
+      </div><!-- /dPanelSettings -->
+    </div><!-- /dashboard -->
 
   </main>
 
   <footer>&copy; Dark School Net — Wir bringen Spiele zurück auf die Schul-iPads</footer>
 
   <script>
-    /* ═══════════════════════════════════════════════
-       SUPABASE
-    ═══════════════════════════════════════════════ */
+    /* ═══════════════════ SUPABASE ═══════════════════ */
     const SUPABASE_URL      = 'https://sigjwzivusuzmhvixtbm.supabase.co';
     const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InNpZ2p3eml2dXN1em1odml4dGJtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzMxNTI3MDksImV4cCI6MjA4ODcyODcwOX0.j0yB-NYM5HOkfKVBz24rWMBQNF8w-uEFjX55UGeD30E';
     const db = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-    /* ═══════════════════════════════════════════════
-       PASSWORT-HASHING
-       - Jeder User bekommt beim Registrieren einen
-         zufälligen 32-Byte Salt (crypto.getRandomValues)
-       - Salt wird als Hex in der DB gespeichert
-       - Beim Login: Salt aus DB laden → Hash vergleichen
-       - PBKDF2 mit SHA-256, 200.000 Iterationen
-    ═══════════════════════════════════════════════ */
-
-    // Zufälligen Salt erzeugen (32 Bytes = 64 Hex-Zeichen)
+    /* ═══════════════════ CRYPTO ═══════════════════ */
     function generateSalt() {
-      const bytes = new Uint8Array(32);
-      crypto.getRandomValues(bytes);
-      return Array.from(bytes).map(b => b.toString(16).padStart(2,'0')).join('');
+      const b = new Uint8Array(32); crypto.getRandomValues(b);
+      return Array.from(b).map(x => x.toString(16).padStart(2,'0')).join('');
     }
-
-    // Passwort + Salt → PBKDF2-Hash
     async function hashPassword(password, saltHex) {
-      const enc     = new TextEncoder();
-      const saltBuf = new Uint8Array(saltHex.match(/.{2}/g).map(h => parseInt(h, 16)));
-      const keyMat  = await crypto.subtle.importKey(
-        'raw', enc.encode(password), 'PBKDF2', false, ['deriveBits']
-      );
-      const bits = await crypto.subtle.deriveBits(
-        { name: 'PBKDF2', hash: 'SHA-256', salt: saltBuf, iterations: 200000 },
-        keyMat, 256
-      );
+      const enc  = new TextEncoder();
+      const salt = new Uint8Array(saltHex.match(/.{2}/g).map(h => parseInt(h,16)));
+      const key  = await crypto.subtle.importKey('raw', enc.encode(password), 'PBKDF2', false, ['deriveBits']);
+      const bits = await crypto.subtle.deriveBits({name:'PBKDF2',hash:'SHA-256',salt,iterations:200000}, key, 256);
       return Array.from(new Uint8Array(bits)).map(b => b.toString(16).padStart(2,'0')).join('');
     }
-
     async function verifyPassword(password, saltHex, storedHash) {
-      const hash = await hashPassword(password, saltHex);
-      return hash === storedHash;
+      return (await hashPassword(password, saltHex)) === storedHash;
     }
 
-    /* ═══════════════════════════════════════════════
-       SESSION
-    ═══════════════════════════════════════════════ */
+    /* ═══════════════════ SESSION ═══════════════════ */
+    let currentUser = null;
+
     function saveSession(user) {
-      const token = btoa(JSON.stringify({
-        u: user.username, n: user.real_name, g: user.grade, t: Date.now()
-      }));
-      sessionStorage.setItem('dsn_session', JSON.stringify({ ...user, token }));
-      return token;
+      sessionStorage.setItem('dsn_session', JSON.stringify(user));
     }
     function getSession() {
       try { return JSON.parse(sessionStorage.getItem('dsn_session')); } catch { return null; }
     }
-    function clearSession() { sessionStorage.removeItem('dsn_session'); }
+    function clearSession() { sessionStorage.removeItem('dsn_session'); currentUser = null; }
 
-    /* ═══════════════════════════════════════════════
-       INIT
-    ═══════════════════════════════════════════════ */
+    /* ═══════════════════ INIT ═══════════════════ */
     window.addEventListener('DOMContentLoaded', () => {
       const s = getSession();
-      if (s) showDashboard(s);
+      if (s) { currentUser = s; showDashboard(s); }
     });
 
-    /* ═══════════════════════════════════════════════
-       TABS
-    ═══════════════════════════════════════════════ */
+    /* ═══════════════════ AUTH TABS ═══════════════════ */
     function switchTab(tab) {
       const isLogin = tab === 'login';
       document.getElementById('tabLogin').classList.toggle('active', isLogin);
@@ -463,19 +444,41 @@
       document.getElementById('panelRegister').classList.toggle('active', !isLogin);
       clearAlerts();
     }
+
+    /* ═══════════════════ DASH TABS ═══════════════════ */
+    function switchDashTab(tab) {
+      const isOverview = tab === 'overview';
+      document.getElementById('dTabOverview').classList.toggle('active', isOverview);
+      document.getElementById('dTabSettings').classList.toggle('active', !isOverview);
+      document.getElementById('dPanelOverview').classList.toggle('active', isOverview);
+      document.getElementById('dPanelSettings').classList.toggle('active', !isOverview);
+    }
+
+    /* ═══════════════════ ACCORDION ═══════════════════ */
+    function toggleBlock(id) {
+      const block = document.getElementById(id);
+      const wasOpen = block.classList.contains('open');
+      // Alle schließen
+      document.querySelectorAll('.change-block').forEach(b => {
+        b.classList.remove('open');
+        b.querySelectorAll('.alert').forEach(a => a.classList.remove('show'));
+      });
+      if (!wasOpen) block.classList.add('open');
+    }
+
+    /* ═══════════════════ ALERTS ═══════════════════ */
     function clearAlerts() {
       document.querySelectorAll('.alert').forEach(el => el.classList.remove('show'));
       document.querySelectorAll('.error-field').forEach(el => el.classList.remove('error-field'));
     }
     function showAlert(id, msg) {
       const el = document.getElementById(id);
+      if (!el) return;
       el.textContent = msg;
       el.classList.add('show');
     }
 
-    /* ═══════════════════════════════════════════════
-       REGISTRIEREN
-    ═══════════════════════════════════════════════ */
+    /* ═══════════════════ REGISTER ═══════════════════ */
     async function handleRegister() {
       clearAlerts();
       const username = document.getElementById('regUsername').value.trim();
@@ -496,112 +499,79 @@
       if (!password) {
         document.getElementById('regPassword').classList.add('error-field'); valid = false;
       }
-      if (!valid) {
-        showAlert('registerError', 'Bitte alle Felder ausfüllen. Username: 3–20 Zeichen, a-z, 0-9, _ . -');
-        return;
-      }
+      if (!valid) { showAlert('registerError','Bitte alle Felder korrekt ausfüllen.'); return; }
 
-      setBtnLoading('registerBtn', 'registerBtnText', 'Prüfe Username…', true);
-
+      setBtnLoading('registerBtn','registerBtnText','Prüfe Username…',true);
       try {
-        // Username-Unique-Check
-        const { data: existing, error: e1 } = await db
-          .from('dsn_users').select('id').eq('username', username.toLowerCase()).maybeSingle();
+        const { data: ex, error: e1 } = await db.from('dsn_users').select('id').eq('username',username.toLowerCase()).maybeSingle();
         if (e1) throw e1;
-        if (existing) {
-          showAlert('registerError', 'Der Username "' + username + '" ist bereits vergeben.');
-          document.getElementById('regUsername').classList.add('error-field');
-          return;
-        }
+        if (ex) { showAlert('registerError','Der Username "'+username+'" ist bereits vergeben.'); document.getElementById('regUsername').classList.add('error-field'); return; }
 
-        // Zufälligen Salt erzeugen + Passwort hashen
-        setBtnLoading('registerBtn', 'registerBtnText', 'Verschlüssele…', true);
-        const salt          = generateSalt();           // einzigartiger Salt pro User
+        setBtnLoading('registerBtn','registerBtnText','Verschlüssele…',true);
+        const salt = generateSalt();
         const password_hash = await hashPassword(password, salt);
 
-        // In Supabase speichern (salt + hash, niemals das Passwort)
-        setBtnLoading('registerBtn', 'registerBtnText', 'Speichere…', true);
-        const { error: e2 } = await db.from('dsn_users').insert({
-          username:      username.toLowerCase(),
-          real_name:     name,
-          grade:         grade,
-          salt:          salt,           // <── user-spezifischer Salt
-          password_hash: password_hash   // <── PBKDF2-Hash
-        });
+        setBtnLoading('registerBtn','registerBtnText','Speichere…',true);
+        const { error: e2 } = await db.from('dsn_users').insert({ username: username.toLowerCase(), real_name: name, grade, salt, password_hash });
         if (e2) throw e2;
 
-        showAlert('registerSuccess', '✓ Account erstellt! Du kannst dich jetzt einloggen.');
-        document.getElementById('regUsername').value = '';
-        document.getElementById('regName').value     = '';
-        document.getElementById('regPassword').value = '';
-        document.getElementById('regGrade').value    = '';
+        showAlert('registerSuccess','✓ Account erstellt! Du kannst dich jetzt einloggen.');
+        ['regUsername','regName','regPassword'].forEach(id => document.getElementById(id).value = '');
+        document.getElementById('regGrade').value = '';
         setTimeout(() => switchTab('login'), 1800);
-
-      } catch (err) {
+      } catch(err) {
         console.error(err);
-        showAlert('registerError', 'Fehler: ' + (err.message || JSON.stringify(err)));
+        showAlert('registerError','Fehler: '+(err.message||JSON.stringify(err)));
       } finally {
-        setBtnLoading('registerBtn', 'registerBtnText', 'Account erstellen', false);
+        setBtnLoading('registerBtn','registerBtnText','Account erstellen',false);
       }
     }
 
-    /* ═══════════════════════════════════════════════
-       LOGIN
-    ═══════════════════════════════════════════════ */
+    /* ═══════════════════ LOGIN ═══════════════════ */
     async function handleLogin() {
       clearAlerts();
       const username = document.getElementById('loginUsername').value.trim().toLowerCase();
       const password = document.getElementById('loginPassword').value;
+      if (!username || !password) { showAlert('loginError','Bitte Benutzername und Passwort eingeben.'); return; }
 
-      if (!username || !password) {
-        showAlert('loginError', 'Bitte Benutzername und Passwort eingeben.');
-        return;
-      }
-
-      setBtnLoading('loginBtn', 'loginBtnText', 'Suche Account…', true);
-
+      setBtnLoading('loginBtn','loginBtnText','Suche Account…',true);
       try {
-        // User inkl. salt aus DB laden
-        const { data: user, error } = await db
-          .from('dsn_users').select('*').eq('username', username).maybeSingle();
+        const { data: user, error } = await db.from('dsn_users').select('*').eq('username',username).maybeSingle();
         if (error) throw error;
+        if (!user) { showAlert('loginError','Benutzername nicht gefunden.'); return; }
 
-        if (!user) {
-          showAlert('loginError', 'Benutzername nicht gefunden.');
-          return;
-        }
-
-        // Mit dem gespeicherten Salt des Users hashen und vergleichen
-        setBtnLoading('loginBtn', 'loginBtnText', 'Prüfe Passwort…', true);
+        setBtnLoading('loginBtn','loginBtnText','Prüfe Passwort…',true);
         const ok = await verifyPassword(password, user.salt, user.password_hash);
-        if (!ok) {
-          showAlert('loginError', 'Falsches Passwort.');
-          return;
-        }
+        if (!ok) { showAlert('loginError','Falsches Passwort.'); return; }
 
-        const token = saveSession(user);
-        showDashboard({ ...user, token });
-
-      } catch (err) {
+        currentUser = user;
+        saveSession(user);
+        showDashboard(user);
+      } catch(err) {
         console.error(err);
-        showAlert('loginError', 'Fehler: ' + (err.message || JSON.stringify(err)));
+        showAlert('loginError','Fehler: '+(err.message||JSON.stringify(err)));
       } finally {
-        setBtnLoading('loginBtn', 'loginBtnText', 'Einloggen', false);
+        setBtnLoading('loginBtn','loginBtnText','Einloggen',false);
       }
     }
 
-    /* ═══════════════════════════════════════════════
-       DASHBOARD
-    ═══════════════════════════════════════════════ */
+    /* ═══════════════════ DASHBOARD ═══════════════════ */
     function showDashboard(user) {
       document.getElementById('authCard').style.display  = 'none';
       document.getElementById('dashboard').style.display = 'block';
+      refreshDashboard(user);
+    }
+
+    function refreshDashboard(user) {
       document.getElementById('dashName').textContent     = user.real_name || '–';
       document.getElementById('dashUsername').textContent = user.username  || '–';
       document.getElementById('dashGrade').textContent    = 'Klasse ' + (user.grade || '–');
       document.getElementById('dashJoined').textContent   = user.created_at
         ? new Date(user.created_at).toLocaleDateString('de-DE') : '–';
-      document.getElementById('sessionToken').textContent = user.token || saveSession(user);
+      // Settings display
+      document.getElementById('curUsername').textContent  = user.username  || '–';
+      document.getElementById('curName').textContent      = user.real_name || '–';
+      document.getElementById('curGrade').textContent     = 'Klasse ' + (user.grade || '–');
     }
 
     function handleLogout() {
@@ -612,28 +582,115 @@
       document.getElementById('loginPassword').value = '';
       clearAlerts();
       switchTab('login');
+      switchDashTab('overview');
     }
 
-    function copyToken() {
-      navigator.clipboard.writeText(document.getElementById('sessionToken').textContent).then(() => {
-        const btn = document.querySelector('.copy-btn');
-        btn.textContent = 'Kopiert ✓';
-        setTimeout(() => btn.textContent = 'Kopieren', 2000);
-      });
+    /* ═══════════════════ CHANGE FIELD ═══════════════════ */
+    async function changeField(field) {
+      // Clear alerts for this block
+      const errId = 'err' + field.charAt(0).toUpperCase() + field.slice(1);
+      const okId  = 'ok'  + field.charAt(0).toUpperCase() + field.slice(1);
+      showAlert(errId, ''); document.getElementById(errId).classList.remove('show');
+      showAlert(okId,  ''); document.getElementById(okId).classList.remove('show');
+
+      const btnId  = 'btn'  + field.charAt(0).toUpperCase() + field.slice(1);
+      const txtId  = btnId  + 'Text';
+
+      // Collect values
+      let newValue, confirmPw;
+
+      if (field === 'username') {
+        newValue   = document.getElementById('newUsername').value.trim().toLowerCase();
+        confirmPw  = document.getElementById('pwUsername').value;
+        if (!newValue || newValue.length < 3 || newValue.length > 20 || !/^[a-zA-Z0-9_.\-]+$/.test(newValue)) {
+          showAlert(errId,'Ungültiger Username: 3–20 Zeichen, a-z, 0-9, _ . -'); return;
+        }
+      } else if (field === 'name') {
+        newValue   = document.getElementById('newName').value.trim();
+        confirmPw  = document.getElementById('pwName').value;
+        if (!newValue || newValue.length < 2) { showAlert(errId,'Vorname zu kurz.'); return; }
+      } else if (field === 'grade') {
+        newValue   = document.getElementById('newGrade').value;
+        confirmPw  = document.getElementById('pwGrade').value;
+        if (!newValue) { showAlert(errId,'Bitte eine Klasse auswählen.'); return; }
+      } else if (field === 'password') {
+        confirmPw  = document.getElementById('pwOld').value;
+        const pw1  = document.getElementById('pwNew').value;
+        const pw2  = document.getElementById('pwNewConfirm').value;
+        if (!pw1) { showAlert(errId,'Bitte ein neues Passwort eingeben.'); return; }
+        if (pw1 !== pw2) { showAlert(errId,'Die neuen Passwörter stimmen nicht überein.'); return; }
+        newValue = pw1;
+      }
+
+      if (!confirmPw) { showAlert(errId,'Bitte aktuelles Passwort eingeben.'); return; }
+
+      setSaveBtnLoading(btnId, txtId, 'Prüfe…', true);
+
+      try {
+        // Passwort verifizieren
+        const ok = await verifyPassword(confirmPw, currentUser.salt, currentUser.password_hash);
+        if (!ok) { showAlert(errId,'Falsches Passwort.'); return; }
+
+        setSaveBtnLoading(btnId, txtId, 'Speichere…', true);
+
+        let updateData = {};
+
+        if (field === 'username') {
+          // Unique-Check
+          const { data: ex } = await db.from('dsn_users').select('id').eq('username', newValue).maybeSingle();
+          if (ex && ex.id !== currentUser.id) { showAlert(errId,'Dieser Username ist bereits vergeben.'); return; }
+          updateData = { username: newValue };
+        } else if (field === 'name') {
+          updateData = { real_name: newValue };
+        } else if (field === 'grade') {
+          updateData = { grade: newValue };
+        } else if (field === 'password') {
+          // Neuen Salt + Hash erzeugen
+          const newSalt = generateSalt();
+          const newHash = await hashPassword(newValue, newSalt);
+          updateData = { salt: newSalt, password_hash: newHash };
+        }
+
+        const { error } = await db.from('dsn_users').update(updateData).eq('id', currentUser.id);
+        if (error) throw error;
+
+        // Session aktualisieren
+        currentUser = { ...currentUser, ...updateData };
+        saveSession(currentUser);
+        refreshDashboard(currentUser);
+
+        showAlert(okId, '✓ Erfolgreich gespeichert!');
+        // Felder leeren
+        if (field === 'username') { document.getElementById('newUsername').value=''; document.getElementById('pwUsername').value=''; }
+        if (field === 'name')     { document.getElementById('newName').value='';     document.getElementById('pwName').value=''; }
+        if (field === 'grade')    { document.getElementById('newGrade').value='';    document.getElementById('pwGrade').value=''; }
+        if (field === 'password') { document.getElementById('pwOld').value=''; document.getElementById('pwNew').value=''; document.getElementById('pwNewConfirm').value=''; }
+
+        setTimeout(() => document.getElementById(okId).classList.remove('show'), 3000);
+
+      } catch(err) {
+        console.error(err);
+        showAlert(errId,'Fehler: '+(err.message||JSON.stringify(err)));
+      } finally {
+        setSaveBtnLoading(btnId, txtId, 'Speichern', false);
+      }
     }
 
-    /* ═══════════════════════════════════════════════
-       HELPERS
-    ═══════════════════════════════════════════════ */
+    /* ═══════════════════ HELPERS ═══════════════════ */
     function setBtnLoading(btnId, textId, label, loading) {
       document.getElementById(btnId).disabled = loading;
-      document.getElementById(textId).innerHTML = loading
-        ? '<span class="spinner"></span>' + label : label;
+      document.getElementById(textId).innerHTML = loading ? '<span class="spinner"></span>'+label : label;
+    }
+    function setSaveBtnLoading(btnId, textId, label, loading) {
+      document.getElementById(btnId).disabled = loading;
+      document.getElementById(textId).innerHTML = loading ? '<span class="spinner"></span>'+label : label;
     }
 
     document.addEventListener('keydown', e => {
       if (e.key !== 'Enter') return;
-      document.getElementById('panelLogin').classList.contains('active') ? handleLogin() : handleRegister();
+      if (document.getElementById('authCard').style.display !== 'none') {
+        document.getElementById('panelLogin').classList.contains('active') ? handleLogin() : handleRegister();
+      }
     });
   </script>
 </body>
