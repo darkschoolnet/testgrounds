@@ -199,8 +199,6 @@
       margin-right:8px; vertical-align:middle;
     }
     @keyframes spin { to { transform:rotate(360deg); } }
-
-    /* DASHBOARD */
     #dashboard {
       display:none; width:100%; max-width:600px;
       animation:cardIn 0.5s cubic-bezier(0.16,1,0.3,1) both;
@@ -390,37 +388,54 @@
 
   <script>
     /* ═══════════════════════════════════════════════
-       SUPABASE — korrekte Initialisierung für UMD
+       SUPABASE
     ═══════════════════════════════════════════════ */
     const SUPABASE_URL      = 'https://sigjwzivusuzmhvixtbm.supabase.co';
     const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InNpZ2p3eml2dXN1em1odml4dGJtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzMxNTI3MDksImV4cCI6MjA4ODcyODcwOX0.j0yB-NYM5HOkfKVBz24rWMBQNF8w-uEFjX55UGeD30E';
-
     const db = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
     /* ═══════════════════════════════════════════════
-       PASSWORT-HASHING — Web Crypto API (PBKDF2)
-       Kein externes bcrypt — läuft nativ im Browser
+       PASSWORT-HASHING
+       - Jeder User bekommt beim Registrieren einen
+         zufälligen 32-Byte Salt (crypto.getRandomValues)
+       - Salt wird als Hex in der DB gespeichert
+       - Beim Login: Salt aus DB laden → Hash vergleichen
+       - PBKDF2 mit SHA-256, 200.000 Iterationen
     ═══════════════════════════════════════════════ */
-    async function hashPassword(password) {
-      const enc    = new TextEncoder();
-      const keyMat = await crypto.subtle.importKey('raw', enc.encode(password), 'PBKDF2', false, ['deriveBits']);
-      const salt   = enc.encode('dsn_static_salt_v1');
-      const bits   = await crypto.subtle.deriveBits(
-        { name: 'PBKDF2', hash: 'SHA-256', salt, iterations: 100000 },
+
+    // Zufälligen Salt erzeugen (32 Bytes = 64 Hex-Zeichen)
+    function generateSalt() {
+      const bytes = new Uint8Array(32);
+      crypto.getRandomValues(bytes);
+      return Array.from(bytes).map(b => b.toString(16).padStart(2,'0')).join('');
+    }
+
+    // Passwort + Salt → PBKDF2-Hash
+    async function hashPassword(password, saltHex) {
+      const enc     = new TextEncoder();
+      const saltBuf = new Uint8Array(saltHex.match(/.{2}/g).map(h => parseInt(h, 16)));
+      const keyMat  = await crypto.subtle.importKey(
+        'raw', enc.encode(password), 'PBKDF2', false, ['deriveBits']
+      );
+      const bits = await crypto.subtle.deriveBits(
+        { name: 'PBKDF2', hash: 'SHA-256', salt: saltBuf, iterations: 200000 },
         keyMat, 256
       );
       return Array.from(new Uint8Array(bits)).map(b => b.toString(16).padStart(2,'0')).join('');
     }
 
-    async function verifyPassword(password, storedHash) {
-      return (await hashPassword(password)) === storedHash;
+    async function verifyPassword(password, saltHex, storedHash) {
+      const hash = await hashPassword(password, saltHex);
+      return hash === storedHash;
     }
 
     /* ═══════════════════════════════════════════════
        SESSION
     ═══════════════════════════════════════════════ */
     function saveSession(user) {
-      const token = btoa(JSON.stringify({ u: user.username, n: user.real_name, g: user.grade, t: Date.now() }));
+      const token = btoa(JSON.stringify({
+        u: user.username, n: user.real_name, g: user.grade, t: Date.now()
+      }));
       sessionStorage.setItem('dsn_session', JSON.stringify({ ...user, token }));
       return token;
     }
@@ -489,6 +504,7 @@
       setBtnLoading('registerBtn', 'registerBtnText', 'Prüfe Username…', true);
 
       try {
+        // Username-Unique-Check
         const { data: existing, error: e1 } = await db
           .from('dsn_users').select('id').eq('username', username.toLowerCase()).maybeSingle();
         if (e1) throw e1;
@@ -498,15 +514,19 @@
           return;
         }
 
+        // Zufälligen Salt erzeugen + Passwort hashen
         setBtnLoading('registerBtn', 'registerBtnText', 'Verschlüssele…', true);
-        const password_hash = await hashPassword(password);
+        const salt          = generateSalt();           // einzigartiger Salt pro User
+        const password_hash = await hashPassword(password, salt);
 
+        // In Supabase speichern (salt + hash, niemals das Passwort)
         setBtnLoading('registerBtn', 'registerBtnText', 'Speichere…', true);
         const { error: e2 } = await db.from('dsn_users').insert({
           username:      username.toLowerCase(),
           real_name:     name,
           grade:         grade,
-          password_hash: password_hash
+          salt:          salt,           // <── user-spezifischer Salt
+          password_hash: password_hash   // <── PBKDF2-Hash
         });
         if (e2) throw e2;
 
@@ -541,6 +561,7 @@
       setBtnLoading('loginBtn', 'loginBtnText', 'Suche Account…', true);
 
       try {
+        // User inkl. salt aus DB laden
         const { data: user, error } = await db
           .from('dsn_users').select('*').eq('username', username).maybeSingle();
         if (error) throw error;
@@ -550,8 +571,9 @@
           return;
         }
 
+        // Mit dem gespeicherten Salt des Users hashen und vergleichen
         setBtnLoading('loginBtn', 'loginBtnText', 'Prüfe Passwort…', true);
-        const ok = await verifyPassword(password, user.password_hash);
+        const ok = await verifyPassword(password, user.salt, user.password_hash);
         if (!ok) {
           showAlert('loginError', 'Falsches Passwort.');
           return;
