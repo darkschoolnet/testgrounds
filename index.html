@@ -344,104 +344,92 @@ select.fi-inp option{background:#161616;color:var(--text-white);}
 
 /* ══ IDEAS BOARD ══ */
 .ideas-section{position:relative;z-index:1;padding:0 32px 80px;}
-.ideas-promo{position:relative;border:1px solid var(--border-subtle);background:var(--bg-surface);overflow:hidden;margin-bottom:28px;}
-.ideas-promo::before{content:'';position:absolute;top:0;left:0;width:3px;height:100%;background:linear-gradient(to bottom,var(--accent),var(--admin));}
-.ideas-promo-inner{display:flex;align-items:center;justify-content:space-between;padding:20px 28px;gap:24px;}
-.ideas-promo-glow{position:absolute;top:-40px;right:-40px;width:200px;height:200px;background:radial-gradient(circle,rgba(91,140,255,0.07) 0%,transparent 70%);pointer-events:none;}
-.ideas-promo-left{}
-.ideas-promo-kicker{font-family:var(--fu);font-size:10px;font-weight:600;letter-spacing:3px;text-transform:uppercase;color:var(--accent);margin-bottom:8px;display:flex;align-items:center;gap:8px;}
-.ideas-promo-kicker::before{content:'';width:18px;height:1px;background:var(--accent);}
-.ideas-promo-title{font-family:var(--fi);font-size:26px;letter-spacing:3px;text-transform:uppercase;color:var(--text-white);line-height:1;margin-bottom:6px;}
-.ideas-promo-title span{color:var(--accent);}
-.ideas-promo-desc{font-size:13px;color:var(--text-secondary);line-height:1.55;max-width:460px;}
-.ideas-promo-stats{display:flex;gap:24px;margin-top:12px;}
-.ideas-stat-num{font-family:var(--fi);font-size:22px;color:var(--text-white);letter-spacing:2px;}
-.ideas-stat-lbl{font-family:var(--fu);font-size:10px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--text-muted);}
-.ideas-promo-right{display:flex;flex-direction:column;gap:8px;flex-shrink:0;}
-.ideas-promo-btn{font-family:var(--fi);font-size:12px;letter-spacing:2px;text-transform:uppercase;padding:10px 22px;border:1px solid var(--accent);background:transparent;color:var(--accent);cursor:pointer;position:relative;overflow:hidden;transition:color .2s;text-align:center;white-space:nowrap;}
-.ideas-promo-btn::before{content:'';position:absolute;inset:0;background:var(--accent);transform:scaleX(0);transform-origin:left;transition:transform .22s;z-index:-1;}
-.ideas-promo-btn:hover{color:#fff;}
-.ideas-promo-btn:hover::before{transform:scaleX(1);}
-.ideas-promo-btn.guest-login{border-color:var(--border-mid);color:var(--text-secondary);}
-.ideas-promo-btn.guest-login::before{background:var(--border-active);}
-.ideas-promo-btn.guest-login:hover{color:var(--text-white);}
+@media(max-width:640px){.ideas-section{padding:0 16px 60px;}.ideas-hero{flex-direction:column;gap:16px;}.ideas-hero-title{font-size:clamp(32px,7vw,56px);}.ideas-form-row{grid-template-columns:1fr;}.ideas-grid{grid-template-columns:1fr;}}
 
-/* Countdown */
-.ideas-countdown{display:flex;align-items:center;justify-content:space-between;background:var(--bg-card);border:1px solid var(--border-subtle);padding:10px 20px;margin-bottom:20px;}
-.ideas-countdown-lbl{font-family:var(--fu);font-size:11px;font-weight:500;letter-spacing:2px;text-transform:uppercase;color:var(--text-secondary);display:flex;align-items:center;gap:8px;}
-.ideas-cd-dot{width:6px;height:6px;background:var(--warning);border-radius:50%;animation:pulse 1.5s infinite;}
-.ideas-cd-time{font-family:var(--fi);font-size:15px;letter-spacing:2px;color:var(--warning);}
-.ideas-cd-week{font-family:var(--fu);font-size:11px;font-weight:500;letter-spacing:2px;text-transform:uppercase;color:var(--text-muted);}
+/* Hero */
+.ideas-hero{display:flex;align-items:flex-end;justify-content:space-between;gap:24px;margin-bottom:20px;}
+.ideas-hero-title{font-family:var(--fi);font-size:clamp(38px,6vw,68px);letter-spacing:4px;text-transform:uppercase;color:var(--text-white);line-height:.95;margin-bottom:8px;}
+.ideas-hero-title span{color:var(--accent);}
+.ideas-hero-meta{font-family:var(--fu);font-size:12px;letter-spacing:2px;text-transform:uppercase;color:var(--text-muted);}
+.ideas-hero-right{display:flex;flex-direction:column;align-items:flex-end;gap:10px;flex-shrink:0;}
+.ideas-hero-stats{display:flex;align-items:center;gap:14px;}
+.ideas-hero-num{font-family:var(--fi);font-size:22px;color:var(--text-white);letter-spacing:2px;margin-right:4px;}
+.ideas-hero-lbl{font-family:var(--fu);font-size:10px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--text-muted);}
+.ideas-hero-divider{width:1px;height:22px;background:var(--border-mid);}
+.ideas-hero-cd{display:flex;align-items:center;gap:8px;}
+.ideas-cd-dot{width:6px;height:6px;background:var(--warning);border-radius:50%;animation:pulse 1.5s infinite;flex-shrink:0;}
+.ideas-cd-time{font-family:var(--fi);font-size:16px;letter-spacing:2px;color:var(--warning);}
+.ideas-cd-week{font-family:var(--fu);font-size:10px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--text-muted);}
 
-/* Submit form */
-.ideas-submit-wrap{background:var(--bg-card);border:1px solid var(--border-subtle);margin-bottom:20px;position:relative;}
-.ideas-submit-wrap::before{content:'';position:absolute;top:0;left:0;width:26px;height:26px;border-top:2px solid var(--accent);border-left:2px solid var(--accent);pointer-events:none;z-index:1;}
-.ideas-submit-head{padding:14px 20px;display:flex;align-items:center;justify-content:space-between;cursor:pointer;user-select:none;}
-.ideas-submit-head:hover{background:rgba(255,255,255,.02);}
-.ideas-submit-head-title{font-family:var(--fi);font-size:13px;letter-spacing:2px;text-transform:uppercase;color:var(--text-white);display:flex;align-items:center;gap:8px;}
-.ideas-submit-head-title .plus{color:var(--accent);font-size:16px;}
-.ideas-submit-arrow{font-size:11px;color:var(--text-muted);transition:transform .2s;}
-.ideas-submit-arrow.open{transform:rotate(180deg);}
-/* Direct visible submit form for logged in */
-.ideas-direct-submit{background:var(--bg-card);border:1px solid var(--border-subtle);padding:18px 20px;margin-bottom:20px;position:relative;}
-.ideas-direct-submit::before{content:'';position:absolute;top:0;left:0;width:26px;height:26px;border-top:2px solid var(--accent);border-left:2px solid var(--accent);pointer-events:none;}
-.ideas-direct-title{font-family:var(--fi);font-size:13px;letter-spacing:2px;text-transform:uppercase;color:var(--text-white);margin-bottom:14px;display:flex;align-items:center;gap:8px;}
-.ideas-direct-title span{color:var(--accent);}
-.ideas-form-row{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px;}
-.ideas-form-group{display:flex;flex-direction:column;gap:5px;}
-.ideas-form-group.full{grid-column:1/-1;}
-.ideas-form-label{font-family:var(--fu);font-size:10px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--text-secondary);}
-.ideas-inp{width:100%;background:var(--bg-input);border:1px solid var(--border-mid);color:var(--text-white);font-family:var(--fu);font-size:14px;letter-spacing:1px;padding:9px 12px;outline:none;transition:border-color .15s;-webkit-appearance:none;appearance:none;}
+/* CTA button */
+.ideas-cta-btn{font-family:var(--fi);font-size:11px;letter-spacing:2px;text-transform:uppercase;padding:8px 18px;border:1px solid var(--accent);background:transparent;color:var(--accent);cursor:pointer;position:relative;overflow:hidden;transition:color .2s;width:100%;}
+.ideas-cta-btn::before{content:'';position:absolute;inset:0;background:var(--accent);transform:scaleX(0);transform-origin:left;transition:transform .22s;z-index:-1;}
+.ideas-cta-btn:hover{color:#fff;}
+.ideas-cta-btn:hover::before{transform:scaleX(1);}
+
+/* Submit form — logged in, always visible, horizontal row */
+.ideas-direct-submit{margin-bottom:20px;}
+.ideas-form-row{display:grid;grid-template-columns:1fr 1fr 2fr auto;gap:8px;align-items:start;}
+.ideas-form-group{display:flex;flex-direction:column;}
+.ideas-inp{width:100%;background:var(--bg-input);border:1px solid var(--border-mid);color:var(--text-white);font-family:var(--fu);font-size:13px;letter-spacing:1px;padding:9px 12px;outline:none;transition:border-color .15s;-webkit-appearance:none;appearance:none;}
 .ideas-inp:focus{border-color:var(--accent);}
 .ideas-inp::placeholder{color:var(--text-muted);}
 .ideas-inp.sel{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%23666'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 12px center;padding-right:32px;cursor:pointer;}
 .ideas-inp.sel option{background:#161616;color:var(--text-white);}
-.ideas-textarea{resize:vertical;min-height:72px;}
-.ideas-submit-btn{font-family:var(--fi);font-size:12px;letter-spacing:2px;text-transform:uppercase;background:transparent;color:var(--accent);border:1px solid var(--accent);padding:9px 22px;cursor:pointer;position:relative;overflow:hidden;transition:color .2s;margin-top:6px;}
+.ideas-textarea{resize:none;height:38px;min-height:38px;}
+.ideas-submit-btn{font-family:var(--fi);font-size:11px;letter-spacing:2px;text-transform:uppercase;background:transparent;color:var(--accent);border:1px solid var(--accent);padding:9px 16px;cursor:pointer;position:relative;overflow:hidden;transition:color .2s;white-space:nowrap;height:38px;}
 .ideas-submit-btn::before{content:'';position:absolute;inset:0;background:var(--accent);transform:scaleX(0);transform-origin:left;transition:transform .2s;z-index:-1;}
 .ideas-submit-btn span{position:relative;z-index:1;}
 .ideas-submit-btn:hover{color:#fff;}
 .ideas-submit-btn:hover::before{transform:scaleX(1);}
 .ideas-submit-btn:disabled{opacity:.4;cursor:not-allowed;}
 
+/* Guest collapsed submit */
+.ideas-guest-collapsed{background:var(--bg-card);border:1px solid var(--border-subtle);margin-bottom:20px;}
+.ideas-guest-toggle{display:flex;align-items:center;justify-content:space-between;padding:11px 16px;cursor:pointer;user-select:none;transition:background .2s;}
+.ideas-guest-toggle:hover{background:rgba(255,255,255,.02);}
+.ideas-guest-toggle-title{font-family:var(--fu);font-size:10px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--text-secondary);}
+.ideas-guest-arrow{font-size:10px;color:var(--text-muted);transition:transform .22s;}
+.ideas-guest-arrow.open{transform:rotate(180deg);color:var(--accent);}
+.ideas-guest-body{display:none;border-top:1px solid var(--border-subtle);padding:14px 16px;}
+.ideas-guest-body.open{display:block;animation:fadeSlide .2s ease both;}
+
 /* Tabs */
-.ideas-tabs{display:flex;border-bottom:1px solid var(--border-subtle);margin-bottom:20px;}
-.ideas-tab{font-family:var(--fi);font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--text-secondary);padding:10px 18px;cursor:pointer;border:none;background:transparent;border-bottom:2px solid transparent;margin-bottom:-1px;transition:all .15s;}
+.ideas-tabs{display:flex;border-bottom:1px solid var(--border-subtle);margin-bottom:16px;}
+.ideas-tab{font-family:var(--fi);font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--text-secondary);padding:10px 16px;cursor:pointer;border:none;background:transparent;border-bottom:2px solid transparent;margin-bottom:-1px;transition:all .15s;}
 .ideas-tab:hover{color:var(--text-primary);}
 .ideas-tab.active{color:var(--accent);border-bottom-color:var(--accent);}
 .ideas-tab-panel{display:none;}
 .ideas-tab-panel.active{display:block;animation:fadeSlide .2s ease both;}
 
 /* Filter chips */
-.ideas-filters{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:16px;}
-.ideas-chip{font-family:var(--fu);font-size:10px;font-weight:600;letter-spacing:2px;text-transform:uppercase;border:1px solid var(--border-mid);background:transparent;color:var(--text-secondary);padding:4px 12px;cursor:pointer;transition:all .15s;}
+.ideas-filters{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:14px;}
+.ideas-chip{font-family:var(--fu);font-size:10px;font-weight:600;letter-spacing:2px;text-transform:uppercase;border:1px solid var(--border-mid);background:transparent;color:var(--text-secondary);padding:3px 10px;cursor:pointer;transition:all .15s;}
 .ideas-chip:hover{border-color:var(--border-active);color:var(--text-primary);}
 .ideas-chip.active{border-color:var(--accent);color:var(--accent);background:var(--accent-glow);}
 
 /* Idea cards */
-.ideas-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:12px;}
-.idea-card{background:var(--bg-card);border:1px solid var(--border-subtle);padding:18px;position:relative;transition:border-color .2s,transform .15s;animation:cardIn .4s ease both;}
-.idea-card::before{content:'';position:absolute;top:0;left:0;width:22px;height:22px;border-top:1px solid var(--accent);border-left:1px solid var(--accent);transition:width .2s,height .2s;}
-.idea-card::after{content:'';position:absolute;bottom:0;right:0;width:22px;height:22px;border-bottom:1px solid var(--border-mid);border-right:1px solid var(--border-mid);}
-.idea-card:hover{border-color:var(--border-mid);transform:translateY(-2px);}
-.idea-card:hover::before{width:40px;height:40px;}
-.idea-card.winner-card{border-color:var(--warning);background:linear-gradient(135deg,var(--bg-card) 0%,rgba(255,170,51,0.04) 100%);}
+.ideas-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:10px;}
+.idea-card{background:var(--bg-card);border:1px solid var(--border-subtle);padding:16px;position:relative;transition:border-color .2s;animation:cardIn .4s ease both;}
+.idea-card::before{content:'';position:absolute;top:0;left:0;width:18px;height:18px;border-top:1px solid var(--accent);border-left:1px solid var(--accent);}
+.idea-card:hover{border-color:var(--border-mid);}
+.idea-card.winner-card{border-color:var(--warning);}
 .idea-card.winner-card::before{border-color:var(--warning);}
-.idea-winner-badge{display:inline-flex;align-items:center;gap:5px;font-family:var(--fu);font-size:10px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--warning);background:rgba(255,170,51,0.1);border:1px solid rgba(255,170,51,0.25);padding:3px 9px;margin-bottom:10px;}
-.idea-meta{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;}
+.idea-winner-badge{display:inline-flex;align-items:center;gap:4px;font-family:var(--fu);font-size:9px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--warning);border:1px solid rgba(255,170,51,.25);padding:2px 7px;margin-bottom:8px;}
+.idea-meta{display:flex;align-items:center;justify-content:space-between;margin-bottom:6px;}
 .idea-author{font-family:var(--fu);font-size:10px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--text-muted);}
-.idea-cat{font-family:var(--fu);font-size:10px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--accent);background:var(--accent-glow);border:1px solid rgba(91,140,255,.2);padding:2px 8px;}
-.idea-title{font-family:var(--fi);font-size:20px;letter-spacing:2px;text-transform:uppercase;color:var(--text-white);margin-bottom:6px;line-height:1.1;}
-.idea-desc{font-size:13px;color:var(--text-secondary);line-height:1.5;margin-bottom:14px;}
+.idea-cat{font-family:var(--fu);font-size:9px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--accent);background:var(--accent-glow);border:1px solid rgba(91,140,255,.2);padding:1px 7px;}
+.idea-title{font-family:var(--fi);font-size:18px;letter-spacing:2px;text-transform:uppercase;color:var(--text-white);margin-bottom:5px;line-height:1.1;}
+.idea-desc{font-size:12px;color:var(--text-secondary);line-height:1.5;margin-bottom:12px;}
 .idea-footer{display:flex;align-items:center;justify-content:space-between;border-top:1px solid var(--border-subtle);padding-top:10px;}
-.idea-status{font-family:var(--fu);font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;padding:2px 9px;border:1px solid;}
+.idea-status{font-family:var(--fu);font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;padding:2px 8px;border:1px solid;}
 .idea-status.s-vorgeschlagen{color:var(--text-secondary);border-color:var(--border-mid);}
 .idea-status.s-abgelehnt{color:var(--danger);border-color:var(--danger);background:var(--danger-glow);}
 .idea-status.s-in_arbeit{color:var(--warning);border-color:var(--warning);background:rgba(255,170,51,.07);}
 .idea-status.s-umgesetzt{color:var(--success);border-color:var(--success);background:rgba(68,204,136,.07);}
-.idea-vote-area{display:flex;align-items:center;gap:8px;}
-.idea-vote-count{font-family:var(--fi);font-size:17px;color:var(--text-white);}
-.btn-idea-vote{font-family:var(--fi);font-size:11px;letter-spacing:1px;text-transform:uppercase;background:transparent;color:var(--text-secondary);border:1px solid var(--border-mid);padding:5px 12px;cursor:pointer;position:relative;overflow:hidden;transition:all .15s;display:flex;align-items:center;gap:4px;}
+.idea-vote-area{display:flex;align-items:center;gap:7px;}
+.idea-vote-count{font-family:var(--fi);font-size:16px;color:var(--text-white);}
+.btn-idea-vote{font-family:var(--fi);font-size:10px;letter-spacing:1px;text-transform:uppercase;background:transparent;color:var(--text-secondary);border:1px solid var(--border-mid);padding:4px 10px;cursor:pointer;position:relative;overflow:hidden;transition:all .15s;display:flex;align-items:center;gap:4px;}
 .btn-idea-vote::before{content:'';position:absolute;inset:0;background:var(--accent-glow);transform:scaleX(0);transform-origin:left;transition:transform .2s;}
 .btn-idea-vote span{position:relative;z-index:1;}
 .btn-idea-vote:hover{border-color:var(--accent);color:var(--accent);}
@@ -454,42 +442,26 @@ select.fi-inp option{background:#161616;color:var(--text-white);}
 
 /* Hall of Fame */
 .ideas-hof-list{display:flex;flex-direction:column;gap:2px;}
-.ideas-hof-item{background:var(--bg-card);border:1px solid var(--border-subtle);padding:14px 18px;display:flex;align-items:center;gap:16px;animation:cardIn .4s ease both;}
-.ideas-hof-rank{font-family:var(--fi);font-size:26px;color:var(--text-muted);min-width:32px;text-align:center;}
-.ideas-hof-rank.r1{color:var(--warning);text-shadow:0 0 10px rgba(255,170,51,.4);}
+.ideas-hof-item{background:var(--bg-card);border:1px solid var(--border-subtle);padding:12px 16px;display:flex;align-items:center;gap:14px;animation:cardIn .4s ease both;}
+.ideas-hof-rank{font-family:var(--fi);font-size:24px;color:var(--text-muted);min-width:28px;text-align:center;}
+.ideas-hof-rank.r1{color:var(--warning);}
 .ideas-hof-rank.r2{color:var(--text-secondary);}
 .ideas-hof-rank.r3{color:#cd7f32;}
 .ideas-hof-info{flex:1;}
-.ideas-hof-title{font-family:var(--fi);font-size:16px;letter-spacing:2px;text-transform:uppercase;color:var(--text-white);margin-bottom:2px;}
+.ideas-hof-title{font-family:var(--fi);font-size:15px;letter-spacing:2px;text-transform:uppercase;color:var(--text-white);margin-bottom:1px;}
 .ideas-hof-meta{font-family:var(--fu);font-size:10px;font-weight:500;letter-spacing:2px;text-transform:uppercase;color:var(--text-muted);}
-.ideas-hof-votes{font-family:var(--fi);font-size:20px;color:var(--warning);text-align:right;}
+.ideas-hof-votes{font-family:var(--fi);font-size:18px;color:var(--warning);}
 .ideas-hof-week{font-family:var(--fu);font-size:10px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--text-muted);text-align:right;}
 
-/* Collapsed section for guests */
-.ideas-guest-collapsed{background:var(--bg-card);border:1px solid var(--border-subtle);margin-bottom:12px;overflow:hidden;}
-.ideas-guest-toggle{display:flex;align-items:center;justify-content:space-between;padding:13px 18px;cursor:pointer;user-select:none;transition:background .2s;}
-.ideas-guest-toggle:hover{background:rgba(255,255,255,.02);}
-.ideas-guest-toggle-title{font-family:var(--fu);font-size:11px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--text-secondary);}
-.ideas-guest-arrow{font-size:11px;color:var(--text-muted);transition:transform .22s;}
-.ideas-guest-arrow.open{transform:rotate(180deg);color:var(--accent);}
-.ideas-guest-body{display:none;border-top:1px solid var(--border-subtle);padding:18px;}
-.ideas-guest-body.open{display:block;animation:fadeSlide .2s ease both;}
-
-/* Empty state */
-.ideas-empty{text-align:center;padding:40px 20px;color:var(--text-muted);grid-column:1/-1;}
-.ideas-empty-icon{font-size:32px;margin-bottom:10px;opacity:.4;}
-.ideas-empty-title{font-family:var(--fi);font-size:14px;letter-spacing:2px;text-transform:uppercase;color:var(--text-muted);margin-bottom:4px;}
-.ideas-empty-sub{font-size:13px;color:var(--text-muted);}
-
-/* Section divider */
-.ideas-section-header{display:flex;align-items:center;gap:16px;margin-bottom:24px;}
+/* Empty / section header */
+.ideas-empty{text-align:center;padding:32px 20px;color:var(--text-muted);grid-column:1/-1;}
+.ideas-section-header{display:flex;align-items:center;gap:16px;margin-bottom:20px;}
 .ideas-section-line{flex:1;height:1px;background:var(--border-subtle);}
 .ideas-section-title{font-family:var(--fi);font-size:14px;letter-spacing:4px;text-transform:uppercase;color:var(--text-secondary);white-space:nowrap;}
 .ideas-section-badge{font-family:var(--fu);font-size:10px;font-weight:600;letter-spacing:2px;text-transform:uppercase;background:var(--accent-glow);color:var(--accent);border:1px solid rgba(91,140,255,.3);padding:2px 9px;white-space:nowrap;}
 
 /* Admin status select */
 .ideas-admin-sel{font-family:var(--fi);font-size:10px;letter-spacing:1px;text-transform:uppercase;background:var(--bg-input);border:1px solid var(--admin);color:var(--admin);padding:3px 8px;cursor:pointer;outline:none;-webkit-appearance:none;}
-
 </style>
 </head>
 <body>
@@ -552,53 +524,45 @@ select.fi-inp option{background:#161616;color:var(--text-white);}
 <!-- ══ IDEAS BOARD ══ -->
 <section class="ideas-section" id="ideasSection">
 
-  <!-- Section header -->
+  <!-- Header -->
   <div class="ideas-section-header">
-    <span class="ideas-section-title">GAME IDEAS BOARD</span>
+    <span class="ideas-section-title">GAME IDEAS</span>
     <div class="ideas-section-line"></div>
     <span class="ideas-section-badge" id="ideasWeekBadge">…</span>
   </div>
 
-  <!-- PROMO (guests) / Welcome (logged in) -->
-  <div class="ideas-promo" id="ideasPromoBanner">
-    <div class="ideas-promo-glow"></div>
-    <div class="ideas-promo-inner">
-      <div class="ideas-promo-left">
-        <div class="ideas-promo-kicker">Exklusiv für DSN-Member</div>
-        <div class="ideas-promo-title">DEINE IDEE.<br><span>UNSER NÄCHSTES GAME.</span></div>
-        <div class="ideas-promo-desc">Schlag neue Spiele vor und vote jeden Freitag um 15:45 Uhr für die beste Idee — die meistgevotete wird umgesetzt.</div>
-        <div class="ideas-promo-stats">
-          <div><div class="ideas-stat-num" id="ideasStatCount">—</div><div class="ideas-stat-lbl">Ideen diese Woche</div></div>
-          <div><div class="ideas-stat-num" id="ideasStatVotes">—</div><div class="ideas-stat-lbl">Votes abgegeben</div></div>
-          <div><div class="ideas-stat-num" id="ideasStatWinners">—</div><div class="ideas-stat-lbl">Gewinner bisher</div></div>
-        </div>
+  <!-- Hero-Zeile: große Überschrift + Countdown + ggf. Login-CTA -->
+  <div class="ideas-hero">
+    <div class="ideas-hero-left">
+      <div class="ideas-hero-title">DEINE IDEE.<br><span>NÄCHSTES GAME.</span></div>
+      <div class="ideas-hero-meta" id="ideasHeroMeta">Jeden Freitag 15:45 Uhr wird die meistgevotete Idee umgesetzt.</div>
+    </div>
+    <div class="ideas-hero-right">
+      <div class="ideas-hero-stats">
+        <div><span class="ideas-hero-num" id="ideasStatCount">—</span><span class="ideas-hero-lbl">diese Woche</span></div>
+        <div class="ideas-hero-divider"></div>
+        <div><span class="ideas-hero-num" id="ideasStatVotes">—</span><span class="ideas-hero-lbl">votes</span></div>
+        <div class="ideas-hero-divider"></div>
+        <div><span class="ideas-hero-num" id="ideasStatWinners">—</span><span class="ideas-hero-lbl">gewinner</span></div>
       </div>
-      <div class="ideas-promo-right" id="ideasPromoActions">
-        <button class="ideas-promo-btn" onclick="openAccountDrawer('register')">▶ JETZT REGISTRIEREN</button>
-        <button class="ideas-promo-btn guest-login" onclick="openAccountDrawer('login')">BEREITS DABEI? LOGIN</button>
+      <div class="ideas-hero-cd">
+        <span class="ideas-cd-dot"></span>
+        <span class="ideas-cd-time" id="ideasCdTimer">—</span>
+        <span class="ideas-cd-week" id="ideasCdWeek"></span>
+      </div>
+      <div id="ideasPromoActions" style="display:none;margin-top:12px;display:none;">
+        <button class="ideas-cta-btn" onclick="openAccountDrawer('login')">EINLOGGEN &amp; VOTEN →</button>
       </div>
     </div>
   </div>
 
-  <!-- Countdown -->
-  <div class="ideas-countdown">
-    <div class="ideas-countdown-lbl"><span class="ideas-cd-dot"></span> Voting läuft · Nächste Auswertung Fr. 15:45 Uhr</div>
-    <div style="display:flex;align-items:center;gap:18px;">
-      <span class="ideas-cd-time" id="ideasCdTimer">—</span>
-      <span class="ideas-cd-week" id="ideasCdWeek"></span>
-    </div>
-  </div>
-
-  <!-- SUBMIT — direkt sichtbar für eingeloggte User -->
+  <!-- SUBMIT — eingeloggt: direkt sichtbar -->
   <div class="ideas-direct-submit" id="ideasDirectSubmit" style="display:none;">
-    <div class="ideas-direct-title"><span>+</span> NEUE IDEE EINREICHEN</div>
     <div class="ideas-form-row">
       <div class="ideas-form-group">
-        <label class="ideas-form-label">Spieltitel *</label>
-        <input class="ideas-inp" id="ideaTitleInput" type="text" placeholder="z.B. Pixel Dungeon Racing" maxlength="60"/>
+        <input class="ideas-inp" id="ideaTitleInput" type="text" placeholder="Spieltitel…" maxlength="60"/>
       </div>
       <div class="ideas-form-group">
-        <label class="ideas-form-label">Kategorie</label>
         <select class="ideas-inp sel" id="ideaCatSelect">
           <option value="action">Action</option>
           <option value="puzzle">Puzzle</option>
@@ -610,32 +574,30 @@ select.fi-inp option{background:#161616;color:var(--text-white);}
           <option value="sonstiges">Sonstiges</option>
         </select>
       </div>
+      <div class="ideas-form-group">
+        <textarea class="ideas-inp ideas-textarea" id="ideaDescInput" placeholder="Kurze Beschreibung…" maxlength="300"></textarea>
+      </div>
+      <button class="ideas-submit-btn" id="ideaSubmitBtn" onclick="submitIdeaBoard()"><span>▶ EINREICHEN</span></button>
     </div>
-    <div class="ideas-form-group full" style="margin-bottom:10px;">
-      <label class="ideas-form-label">Beschreibung *</label>
-      <textarea class="ideas-inp ideas-textarea" id="ideaDescInput" placeholder="Erkläre kurz das Konzept… Was macht es besonders?" maxlength="300"></textarea>
-    </div>
-    <button class="ideas-submit-btn" id="ideaSubmitBtn" onclick="submitIdeaBoard()"><span>▶ IDEE EINREICHEN</span></button>
     <div id="ideaSubmitMsg" style="font-family:var(--fu);font-size:12px;letter-spacing:1px;color:var(--success);margin-top:8px;display:none;"></div>
   </div>
 
-  <!-- SUBMIT — zugeklappt für Gäste (zeigt Teaser) -->
+  <!-- SUBMIT — Gast: zugeklappt -->
   <div class="ideas-guest-collapsed" id="ideasGuestSubmit" style="display:none;">
     <div class="ideas-guest-toggle" onclick="toggleIdeasGuest('ideasGuestSubmit')">
       <span class="ideas-guest-toggle-title">+ IDEE EINREICHEN</span>
       <span class="ideas-guest-arrow" id="ideasGuestSubmitArrow">▼</span>
     </div>
     <div class="ideas-guest-body" id="ideasGuestSubmitBody">
-      <div style="font-family:var(--fu);font-size:12px;color:var(--text-secondary);margin-bottom:12px;line-height:1.6;">Du musst eingeloggt sein, um eine Idee einzureichen.</div>
-      <button class="ideas-promo-btn" onclick="openAccountDrawer('login')">EINLOGGEN</button>
-      <button class="ideas-promo-btn guest-login" style="margin-top:8px;" onclick="openAccountDrawer('register')">REGISTRIEREN</button>
+      <button class="ideas-cta-btn" onclick="openAccountDrawer('login')">EINLOGGEN</button>
+      <button class="ideas-cta-btn" style="margin-top:6px;border-color:var(--border-mid);color:var(--text-secondary);" onclick="openAccountDrawer('register')">REGISTRIEREN</button>
     </div>
   </div>
 
   <!-- TABS -->
   <div class="ideas-tabs">
     <button class="ideas-tab active" id="itab-current" onclick="switchIdeasTab('current')">Diese Woche</button>
-    <button class="ideas-tab" id="itab-all" onclick="switchIdeasTab('all')">Alle Ideen</button>
+    <button class="ideas-tab" id="itab-all" onclick="switchIdeasTab('all')">Alle</button>
     <button class="ideas-tab" id="itab-hof" onclick="switchIdeasTab('hof')">🏆 Hall of Fame</button>
   </div>
 
@@ -650,11 +612,11 @@ select.fi-inp option{background:#161616;color:var(--text-white);}
       <button class="ideas-chip" onclick="setIdeasFilter(this,'current','multiplayer')">Multi</button>
     </div>
     <div class="ideas-grid" id="ideasGridCurrent">
-      <div class="ideas-empty"><div class="ideas-empty-icon">💡</div><div style="font-family:var(--fu);font-size:11px;letter-spacing:2px;color:var(--text-muted);">LÄDT…</div></div>
+      <div class="ideas-empty"><div style="font-family:var(--fu);font-size:11px;letter-spacing:2px;color:var(--text-muted);">LÄDT…</div></div>
     </div>
   </div>
 
-  <!-- TAB: alle Ideen (zugeklappt für Gäste) -->
+  <!-- TAB: alle Ideen -->
   <div class="ideas-tab-panel" id="ipanel-all">
     <div class="ideas-filters" id="ideasFilterAll">
       <button class="ideas-chip active" onclick="setIdeasFilter(this,'all','all')">Alle</button>
@@ -664,14 +626,14 @@ select.fi-inp option{background:#161616;color:var(--text-white);}
       <button class="ideas-chip" onclick="setIdeasFilter(this,'all','abgelehnt')">Abgelehnt</button>
     </div>
     <div class="ideas-grid" id="ideasGridAll">
-      <div class="ideas-empty"><div class="ideas-empty-icon">💡</div><div style="font-family:var(--fu);font-size:11px;letter-spacing:2px;color:var(--text-muted);">LÄDT…</div></div>
+      <div class="ideas-empty"><div style="font-family:var(--fu);font-size:11px;letter-spacing:2px;color:var(--text-muted);">LÄDT…</div></div>
     </div>
   </div>
 
   <!-- TAB: Hall of Fame -->
   <div class="ideas-tab-panel" id="ipanel-hof">
     <div class="ideas-hof-list" id="ideasHofList">
-      <div class="ideas-empty"><div class="ideas-empty-icon">🏆</div><div style="font-family:var(--fu);font-size:11px;letter-spacing:2px;color:var(--text-muted);">LÄDT…</div></div>
+      <div class="ideas-empty"><div style="font-family:var(--fu);font-size:11px;letter-spacing:2px;color:var(--text-muted);">LÄDT…</div></div>
     </div>
   </div>
 
