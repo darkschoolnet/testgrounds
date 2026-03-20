@@ -490,6 +490,7 @@ select.fi-inp option{background:#161616;color:var(--text-white);}
 /* Admin status select */
 .ideas-admin-sel{font-family:var(--fi);font-size:10px;letter-spacing:1px;text-transform:uppercase;background:var(--bg-input);border:1px solid var(--admin);color:var(--admin);padding:3px 8px;cursor:pointer;outline:none;-webkit-appearance:none;}
 
+</style>
 </head>
 <body>
 
@@ -1877,6 +1878,7 @@ function initIdeasBoard(){
   loadIdeasCurrent();
 }
 
+document.addEventListener('keydown',e=>{
   if(e.key==='Escape'){closeAccountDrawer();closeAdminDrawer();closeDelModal();}
   if(e.key==='Enter'){
     if(document.getElementById('accDrawer').classList.contains('open')&&!currentUser)
